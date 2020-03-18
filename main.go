@@ -6,6 +6,7 @@ import (
 	"myProject/videoMaker/GUI"
 	"myProject/videoMaker/app"
 )
+
 var (
 	addr     = flag.String("addr", "127.0.0.1:3435", "address to start the server on")
 	appName  = flag.String("appName", "main", "Gowut app name")

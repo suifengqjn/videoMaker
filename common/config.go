@@ -16,6 +16,17 @@ type Config struct {
 	AliYunOss *oss.AliYunOss //oss
 	AliYunCloud *cloud.AliYunCloud  //语音识别引擎
 
+	CutFront CutFront
+	CutBack CutBack
+	ClearWater ClearWater
+	ClearWater1 ClearWater
+	WaterText WaterText
+	RunWaterText RunWaterText
+	WaterImage WaterImage
+	AddBgm AddBgm
+	FilmHead FilmTitle
+	FilmFoot FilmEnd
+
 	IntelligentBlock bool //智能分段处理
 	TempDir string //临时文件目录
 	AppDir string //应用根目录
@@ -64,6 +75,8 @@ func NewAppConfig() *Config  {
 	return AppConfig
 
 }
+
+
 
 func GetFCmd(system int) string {
 

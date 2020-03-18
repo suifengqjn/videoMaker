@@ -47,10 +47,10 @@ func buildCollectDemo(event gwu.Event) gwu.Comp {
 	return p
 }
 
-func buildPublishDemo(event gwu.Event) gwu.Comp {
+func buildEditorDemo(event gwu.Event) gwu.Comp {
 	p := gwu.NewPanel()
 	p.AddVSpace(20)
-	link := gwu.NewLink("视频全自动发布器", "https://github.com/suifengqjn/mediaBot")
+	link := gwu.NewLink("视频剪辑器", "https://github.com/suifengqjn/videoWater")
 	p.Add(link)
 	return p
 }
@@ -64,8 +64,8 @@ type pdemo *demo
 
 var extraHeadHTMLs []string
 
-func buildShowcaseWin(sess gwu.Session) {
-	win := gwu.NewWindow("show", "视频伪原创剪辑器")
+func buildHome(sess gwu.Session) {
+	win := gwu.NewWindow("show", "生成器")
 	for _, headHTML := range extraHeadHTMLs {
 		win.AddHeadHTML(headHTML)
 	}
@@ -184,7 +184,7 @@ func buildShowcaseWin(sess gwu.Session) {
 
 	links.Style().SetFullHeight().SetBorderRight2(2, gwu.BrdStyleSolid, "#cccccc")
 	links.AddVSpace(5)
-	homeDemo := createDemo("介绍", buildPublishDemo)
+	homeDemo := createDemo("介绍", buildEditorDemo)
 	selectDemo(homeDemo, nil)
 	links.AddVSpace(5)
 
@@ -193,10 +193,8 @@ func buildShowcaseWin(sess gwu.Session) {
 	l0 := gwu.NewLabel("账户")
 	l0.Style().SetFontWeight(gwu.FontWeightBold)
 	links.Add(l0)
-	createDemo("激活", buildPublishDemo)
-	createDemo("参数", buildPublishDemo)
-	//=============================================//
-
+	createDemo("激活", buildEditorDemo)
+	createDemo("参数", buildEditorDemo)
 	//=============================================//
 
 
@@ -204,7 +202,7 @@ func buildShowcaseWin(sess gwu.Session) {
 	l := gwu.NewLabel("生成原创")
 	l.Style().SetFontWeight(gwu.FontWeightBold)
 	links.Add(l)
-	wei := createDemo("配置", buildPublishDemo)
+	wei := createDemo("配置", buildMainShowUI)
 	selectDemo(wei, nil)
 	//=============================================//
 
@@ -213,8 +211,8 @@ func buildShowcaseWin(sess gwu.Session) {
 	l = gwu.NewLabel("其他软件")
 	l.Style().SetFontWeight(gwu.FontWeightBold)
 	links.Add(l)
-	createDemo("视频剪辑器", buildCollectDemo)
-	createDemo("自动发布器", buildPublishDemo)
+	createDemo("视频采集器", buildCollectDemo)
+	createDemo("视频剪辑器", buildEditorDemo)
 
 
 	links.AddVConsumer()
@@ -255,7 +253,7 @@ func setNoWrap(panel gwu.Panel) {
 type sessHandler struct{}
 
 func (h sessHandler) Created(s gwu.Session) {
-	buildShowcaseWin(s)
+	buildHome(s)
 }
 
 func (h sessHandler) Removed(s gwu.Session) {}
@@ -267,7 +265,6 @@ func StartServer(appName, addr string, autoOpen bool) {
 	for _, headHTML := range extraHeadHTMLs {
 		server.AddRootHeadHTML(headHTML)
 	}
-	//server.AddStaticDir("/asdf", "w:/")
 	server.SetText("视频伪原创剪辑器")
 
 	server.AddSessCreatorName("show", "点击进入")

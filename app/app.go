@@ -3,11 +3,12 @@ package app
 import (
 	"myProject/videoMaker/account"
 	"myProject/videoMaker/common"
+	"myTool/appAccount"
 )
 
 type App struct {
 	AppConfig *common.Config
-	Account *account.Account
+	Account *appAccount.AppAccount
 }
 
 func NewApp() *App  {
