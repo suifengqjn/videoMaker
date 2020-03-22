@@ -21,9 +21,8 @@ import (
 	"fmt"
 	"github.com/icza/gowut/gwu"
 	"log"
-	"myProject/videoEditer/account"
-	"myProject/videoEditer/common"
-	"myProject/videoEditer/deal"
+	"myProject/videoMaker/account"
+	"myProject/videoMaker/app"
 )
 
 
@@ -90,38 +89,32 @@ func buildHome(sess gwu.Session) {
 	title.Style().SetColor(gwu.ClrBlue).SetFontWeight(gwu.FontWeightBold).SetFontSize("120%").Set("text-decoration", "none")
 	header.Add(title)
 
+
 	header.AddHSpace(200)
 	startBtn := gwu.NewButton("开始处理")
 	startBtn.Style().SetFontSize("18")
 	startBtn.Style().SetColor(gwu.ClrBlue)
 
 	startBtn.AddEHandlerFunc(func(e gwu.Event) {
-		if account.VEAccount.IsActive() == false {
-			//showLabel.SetText("需要先激活才能使用")
-			//e.MarkDirty(showLabel)
-			return
+		if account.AppAccount.IsActive() == false {
+			titleLabel.SetText("请先在激活页面激活软件")
+			titleLabel.Style().SetColor("red")
+			e.MarkDirty(titleLabel)
 		}
-		go deal.DoFactory(common.VideoWaterCon)
+		go app.Engine.DoFactory()
 
 	}, gwu.ETypeClick)
 	header.Add(startBtn)
-
-	header.AddHSpace(20)
 
 	header.AddHSpace(50)
 	clearBtn := gwu.NewButton("清空配置")
 	clearBtn.Style().SetFontSize("18")
 	clearBtn.Style().SetColor(gwu.ClrBlue)
 	clearBtn.AddEHandlerFunc(func(e gwu.Event) {
-		common.VideoWaterCon = &common.Config{}
-		//fillWithConfig(common.VideoWaterCon,e)
 
 	}, gwu.ETypeClick)
-
 	header.Add(clearBtn)
 	header.AddHConsumer()
-
-	header.AddHSpace(10)
 
 	header.AddHSpace(100)
 	setNoWrap(header)
@@ -184,7 +177,7 @@ func buildHome(sess gwu.Session) {
 
 	links.Style().SetFullHeight().SetBorderRight2(2, gwu.BrdStyleSolid, "#cccccc")
 	links.AddVSpace(5)
-	homeDemo := createDemo("介绍", buildEditorDemo)
+	homeDemo := createDemo("介绍", buildIntroduction)
 	selectDemo(homeDemo, nil)
 	links.AddVSpace(5)
 
@@ -193,8 +186,8 @@ func buildHome(sess gwu.Session) {
 	l0 := gwu.NewLabel("账户")
 	l0.Style().SetFontWeight(gwu.FontWeightBold)
 	links.Add(l0)
-	createDemo("激活", buildEditorDemo)
-	createDemo("参数", buildEditorDemo)
+	createDemo("激活", buildActiveUI)
+	createDemo("参数", buildPlatform)
 	//=============================================//
 
 

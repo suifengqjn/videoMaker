@@ -20,6 +20,36 @@ type ClearWater struct {
 	H int
 }
 
+type ExtractSubtitles struct {
+	Switch bool
+}
+
+type TextToVoice struct {
+	Switch bool
+	Voice string  // 播音员
+	Volume int // 音量
+	SpeechRate int //语速
+	PitchRate int // 语调
+}
+
+type Composite struct {
+	Switch bool
+	Style int
+}
+
+//字幕样式
+type Subtitles struct {
+	Switch bool
+	FontSize int
+	FontColor string
+	MarginV int
+	BjColor string
+	BjAlpha int  // 0 - 10  0完全透明
+	CoverBj bool  //遮盖原字幕
+	CoverH int
+}
+
+
 
 type WaterText struct {
 	Switch bool

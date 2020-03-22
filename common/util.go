@@ -14,15 +14,7 @@ import (
 )
 
 
-var (
-	config1Path = "./source/files/config1.json"
-	config2Path = "./source/files/config2.json"
-	config3Path = "./source/files/config3.json"
 
-	imagePath = "./material"
-	filmPath  = "./material"
-	fontPath  = "./source/font"
-)
 
 var (
 	imageSufs = []string{"jpg", "jpeg", "png"}
@@ -54,18 +46,18 @@ var (
 		8: "底部居中",
 		9: "左侧居中"}
 
-	PinPStyle    = []string{"未选择", "左上角", "右上角", "右下角", "左下角"}
-	PinPStyleMap = map[int]string{
-		1: "左上角",
-		2: "右上角",
-		3: "右下角",
-		4: "左下角"}
+	Voiceover = []string{"小云","小刚","若兮","思琪","思佳","思诚","艾琪","艾佳","艾诚","艾达","宁儿","瑞琳","思悦","艾雅","艾夏","艾美","艾雨","艾悦","艾婧","小美","艾娜","伊娜","思婧","思彤","小北","艾彤","艾薇","艾宝","Harry","Abby","Andy","Eric","Emily","Luna","Luca","Wendy","William","Olivia"}
 
-	BjImageStyle    = []string{"未选择", "自动", "左右", "上下"}
-	BjImageStyleMap = map[int]string{
-		1: "自动",
-		2: "左右",
-		3: "上下",
+	VoiceoverMap = map[string]string{
+		"Abby":"Abby","Andy":"Andy","Emily":"Emily","Eric":"Eric","Harry":"Harry","Luca":"Luca","Luna":"Luna","Olivia":"Olivia","Wendy":"Wendy","William":"William","伊娜":"Yina","宁儿":"Ninger","小云":"Xiaoyun","小刚":"Xiaogang","小北":"Xiaobei","小美":"Xiaomei","思佳":"Sijia","思婧":"Sijing","思彤":"Sitong","思悦":"Siyue","思琪":"Siqi","思诚":"Sicheng","瑞琳":"Ruilin","艾佳":"Aijia","艾夏":"Aixia","艾娜":"Aina","艾婧":"Aijing","艾宝":"Aibao","艾彤":"Aitong","艾悦":"Aiyue","艾琪":"Aiqi","艾美":"Aimei","艾薇":"Aiwei","艾诚":"Aicheng","艾达":"Aida","艾雅":"Aiya","艾雨":"Aiyu","若兮":"Ruoxi",
+	}
+
+	CompleteStyle = []string{"未选择","配音加字幕","仅配音","仅字幕"}
+	CompleteStyleMap = map[string]int{
+		"未选择":0,
+		"配音加字幕":1,
+		"仅配音":2,
+		"仅字幕":3,
 	}
 )
 

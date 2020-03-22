@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"myProject/videoMaker/GUI"
+	"myProject/videoMaker/account"
 	"myProject/videoMaker/app"
 )
 
@@ -15,14 +15,12 @@ var (
 func main()  {
 
 	App := app.NewApp()
-
-	fmt.Println(App)
-
-
-	path := "/Users/qianjianeng/Desktop/annie/test_video1.mp4"
-
-	//App.GenerateSrt(path)
-	fmt.Println(App, path)
+	App.ClearTemp()
+	appId := account.LoadAppId()
+	if len(appId) > 0 {
+		acc := account.NewAccount(appId,"")
+		App.Account = acc
+	}
 
 	flag.Parse()
 	GUI.StartServer(*appName, *addr, *autoOpen)

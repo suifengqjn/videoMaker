@@ -43,22 +43,34 @@ var (
 */
 var (
 	SrtCb gwu.CheckBox
+
+)
+
+//字幕或文本转语音
+var (
+	VoiceCb gwu.CheckBox
 	SpeecherLb gwu.ListBox //播音人
 	VolumeTB  gwu.TextBox //音量
 	SpeexhRate gwu.TextBox // 语速
 	PitchRate gwu.TextBox //语调
 )
 
-//字幕或文本转语音
-var (
-	VoiceCb gwu.CheckBox
-
-)
-
 //合成  仅配音 仅字幕 配音加字幕
 var (
 	CompositeCb gwu.CheckBox
 	CompositeLb gwu.ListBox
+)
+
+//字幕属性
+var (
+	SubTitleCb gwu.CheckBox
+	SubTitleFontSizeTb gwu.TextBox
+	SubTitleFontColorTb gwu.TextBox
+	SubTitleMarginVTb gwu.TextBox
+	BjColorTb gwu.TextBox
+	BjAlphaTb gwu.TextBox
+	CoverBjCb gwu.CheckBox
+	CoverHTb gwu.TextBox
 )
 
 // 12. 文字水印
@@ -107,3 +119,7 @@ var (
 	filmFootCb  gwu.CheckBox
 	filmFootLb gwu.ListBox
 )
+
+func UpdateUI()  {
+
+}

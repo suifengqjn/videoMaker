@@ -3,22 +3,31 @@ package app
 import (
 	"myProject/videoMaker/account"
 	"myProject/videoMaker/common"
-	"myTool/appAccount"
 )
 
+
+var Engine *App
+
 type App struct {
-	AppConfig *common.Config
-	Account *appAccount.AppAccount
+	*common.Config
+	*account.Account
 }
 
 func NewApp() *App  {
-	app := &App{
-		AppConfig: common.NewAppConfig(),
-		Account:   account.NewAccount(),
+	Engine = &App{
+	common.NewAppConfig(),
+	nil,
 	}
-	return app
+	return Engine
 }
 
 func (a *App)GenerateSrt(videoPath string)  {
 	a.createSrt(videoPath)
+}
+
+func (a *App)GetSrtConf() *common.SrtConfig  {
+	if a == nil {
+		return nil
+	}
+	return a.SrtConfig
 }

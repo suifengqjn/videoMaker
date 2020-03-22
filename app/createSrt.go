@@ -14,18 +14,26 @@ func (a *App) createSrt(videoPath string) {
 	}
 
 	// 1. 提取音频文件
-	bjmPath := ffmpeg.ExtractBgm(a.AppConfig.FCmd, videoPath)
+	bjmPath := ffmpeg.ExtractBgm(a.FCmd, videoPath)
 
 	// 2. 上传到oss
-	remoteUrl, err := a.AppConfig.AliYunOss.UploadObject(bjmPath, filepath.Base(bjmPath))
+	remoteUrl, err := a.AliYunOss.UploadObject(bjmPath, filepath.Base(bjmPath))
 	if err != nil {
 		mylog.LogDebug("文件上传失败", err)
 	}
 
 	// 3.阿里云录音文件识别
-	AudioResult := a.AppConfig.AliYunCloud.AliYunAudioRecognition(remoteUrl, a.AppConfig.IntelligentBlock)
+	AudioResult := a.AliYunCloud.AliYunAudioRecognition(remoteUrl, a.IntelligentBlock)
 
 	// 4.生成字幕文件
-	a.AppConfig.AliYunCloud.AliyunAudioResultMakeSubtitleFile(videoPath, AudioResult)
+	a.AliYunCloud.AliyunAudioResultMakeSubtitleFile(videoPath, AudioResult)
 
+}
+
+func (a *App)createSrtWithUrl(videoPath,url string)  {
+	// 3.阿里云录音文件识别
+	AudioResult := a.AliYunCloud.AliYunAudioRecognition(url, a.IntelligentBlock)
+
+	// 4.生成字幕文件
+	a.AliYunCloud.AliyunAudioResultMakeSubtitleFile(videoPath, AudioResult)
 }

@@ -1,9 +1,11 @@
 package common
 
 import (
+	"encoding/json"
 	"fmt"
 	"myTool/aliyun/cloud"
 	"myTool/aliyun/oss"
+	"myTool/common"
 	"myTool/sys"
 	"os"
 )
@@ -11,26 +13,36 @@ import (
 var AppConfig *Config
 
 type Config struct {
+	*SrtConfig
+	*GUIConfig `json:"-"`
+}
+
+type SrtConfig struct {
 	Setting setting
 	FCmd string
 	AliYunOss *oss.AliYunOss //oss
 	AliYunCloud *cloud.AliYunCloud  //语音识别引擎
+	IntelligentBlock bool //智能分段处理
+	TempDir string //临时文件目录
+	AppDir string //应用根目录
+	OutPutDir string //输出目录
+}
 
+type GUIConfig struct {
 	CutFront CutFront
 	CutBack CutBack
 	ClearWater ClearWater
 	ClearWater1 ClearWater
+	ExtractSubtitles ExtractSubtitles
+	TextToVoice TextToVoice
+	Composite Composite
+	Subtitles Subtitles
 	WaterText WaterText
 	RunWaterText RunWaterText
 	WaterImage WaterImage
 	AddBgm AddBgm
 	FilmHead FilmTitle
 	FilmFoot FilmEnd
-
-	IntelligentBlock bool //智能分段处理
-	TempDir string //临时文件目录
-	AppDir string //应用根目录
-	OutPutDir string //输出目录
 }
 
 type setting struct {
@@ -64,13 +76,19 @@ func NewAppConfig() *Config  {
 		AppKey:          "0DaW2ROvgK4ZIpIA",
 	}
 
-	AppConfig := &Config{
-		FCmd:GetFCmd(0),
-		AliYunOss:oss,
-		AliYunCloud:clo,
-		IntelligentBlock:true,
-		TempDir:projectDir + "/source/temp_data",
-		AppDir:projectDir,
+	srt := &SrtConfig{
+		Setting:          setting{},
+		FCmd:            GetFCmd(0),
+		AliYunOss:        oss,
+		AliYunCloud:      clo,
+		IntelligentBlock: true,
+		TempDir:          projectDir + "/source/tempVideos",
+		AppDir:           projectDir,
+		OutPutDir:        "",
+	}
+	AppConfig = &Config{
+		srt,
+		&GUIConfig{},
 	}
 	return AppConfig
 
@@ -92,5 +110,18 @@ func GetFCmd(system int) string {
 		return "./source/win/32/tool.exe"
 	}
 	return ""
+
+}
+
+func LoadSrtConf()  {
+
+}
+
+func SaveSrtConf()  {
+	buf, err := json.Marshal(AppConfig)
+	if err != nil {
+		return
+	}
+	common.CoverWriteToFile(confPath, buf)
 
 }

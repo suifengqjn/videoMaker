@@ -7,6 +7,8 @@ import (
 )
 
 var GRAY = "#808080"
+var titleLabel gwu.Label
+var defaultShowString = "原创参数配置，在需要执行的操作前面 勾选(注意勾选), 需要剪辑的视频放在video目录下,支持两级目录"
 
 func buildMainShowUI(event gwu.Event) gwu.Comp {
 	p := gwu.NewVerticalPanel()
@@ -17,6 +19,11 @@ func buildMainShowUI(event gwu.Event) gwu.Comp {
 }
 
 func buildUI(p gwu.Panel) {
+
+	titleLabel = gwu.NewLabel(defaultShowString)
+	titleLabel.Style().SetColor(gwu.ClrBlue)
+
+	p.Add(titleLabel)
 
 	p.AddVSpace(10)
 	buildFourCutFront(p)
@@ -39,6 +46,9 @@ func buildUI(p gwu.Panel) {
 
 	p.AddVSpace(10)
 	buildComposite(p)
+
+	p.AddVSpace(10)
+	buildSubTitle(p)
 	//-------//
 
 	p.AddVSpace(10)
@@ -271,80 +281,199 @@ func buildSevenClearWater2(p gwu.Panel) {
 func buildSrtUI(p gwu.Panel) {
 	row := gwu.NewHorizontalPanel()
 	SrtCb = gwu.NewCheckBox("提取字幕")
+	SrtCb.Style().SetColor("#FF6633")
+	SrtCb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.ExtractSubtitles.Switch = SrtCb.State()
+	}, gwu.ETypeClick)
 
 	row.Add(SrtCb)
-
-	row.Add(gwu.NewLabel("播音人:"))
-	SpeecherLb = gwu.NewListBox(common.TextColors)
-	SpeecherLb.AddEHandlerFunc(func(e gwu.Event) {
-
-		if WaterTextColorLb.SelectedIdx() > 0 {
-			common.AppConfig.WaterText.Color = SpeecherLb.SelectedValue()
-		}
-
-	}, gwu.ETypeChange)
-	row.Add(SpeecherLb)
-
-	row.Add(gwu.NewLabel("音量:"))
-	VolumeTB = gwu.NewTextBox("0")
-	VolumeTB.SetMaxLength(3)
-	VolumeTB.AddSyncOnETypes(gwu.ETypeKeyUp)
-	VolumeTB.AddEHandlerFunc(func(e gwu.Event) {
-
-		common.AppConfig.WaterText.Content = VolumeTB.Text()
-	}, gwu.ETypeChange, gwu.ETypeKeyUp)
-	row.Add(VolumeTB)
-
-	row.Add(gwu.NewLabel("语速:"))
-	SpeexhRate = gwu.NewTextBox("0")
-	SpeexhRate.SetMaxLength(3)
-	SpeexhRate.AddSyncOnETypes(gwu.ETypeKeyUp)
-	SpeexhRate.AddEHandlerFunc(func(e gwu.Event) {
-
-		common.AppConfig.WaterText.Content = SpeexhRate.Text()
-	}, gwu.ETypeChange, gwu.ETypeKeyUp)
-	row.Add(SpeexhRate)
-
-	row.Add(gwu.NewLabel("语调:"))
-	PitchRate = gwu.NewTextBox("0")
-	PitchRate.SetMaxLength(3)
-	PitchRate.AddSyncOnETypes(gwu.ETypeKeyUp)
-	PitchRate.AddEHandlerFunc(func(e gwu.Event) {
-
-		common.AppConfig.WaterText.Content = PitchRate.Text()
-	}, gwu.ETypeChange, gwu.ETypeKeyUp)
-	row.Add(PitchRate)
-
 	p.Add(row)
 }
 
 func buildVoice(p gwu.Panel) {
 	row := gwu.NewHorizontalPanel()
-	SrtCb = gwu.NewCheckBox("字幕或文本转语音:")
+	VoiceCb = gwu.NewCheckBox("文字转语音")
+	VoiceCb.Style().SetColor("#FF6633")
+	VoiceCb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.TextToVoice.Switch = VoiceCb.State()
+	}, gwu.ETypeClick)
+	row.Add(VoiceCb)
 
-	row.Add(SrtCb)
 
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("配音员:"))
+	SpeecherLb = gwu.NewListBox(common.Voiceover)
+	common.AppConfig.TextToVoice.Voice = "Xiaoyun"
+	SpeecherLb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.TextToVoice.Voice = common.VoiceoverMap[SpeecherLb.SelectedValue()]
+
+	}, gwu.ETypeChange)
+	row.Add(SpeecherLb)
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("音量:"))
+	VolumeTB = gwu.NewTextBox("50")
+	VolumeTB.SetMaxLength(3)
+	VolumeTB.Style().SetWidthPx(50)
+	VolumeTB.AddSyncOnETypes(gwu.ETypeKeyUp)
+	common.AppConfig.TextToVoice.Volume = 50
+	VolumeTB.AddEHandlerFunc(func(e gwu.Event) {
+
+		common.AppConfig.TextToVoice.Volume =  common.IntValue(VolumeTB.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(VolumeTB)
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("语速:"))
+	SpeexhRate = gwu.NewTextBox("0")
+	SpeexhRate.SetMaxLength(3)
+	SpeexhRate.Style().SetWidthPx(50)
+	SpeexhRate.AddSyncOnETypes(gwu.ETypeKeyUp)
+	SpeexhRate.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.TextToVoice.SpeechRate = common.IntValue(SpeexhRate.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(SpeexhRate)
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("语调:"))
+	PitchRate = gwu.NewTextBox("0")
+	PitchRate.SetMaxLength(3)
+	PitchRate.Style().SetWidthPx(50)
+	PitchRate.AddSyncOnETypes(gwu.ETypeKeyUp)
+	PitchRate.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.TextToVoice.PitchRate = common.IntValue(PitchRate.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(PitchRate)
+
+	row.AddHSpace(10)
+	desc := gwu.NewLabel("音量,范围是0~100，默认50. 语速和语调范围是-500~500，默认是0")
+	desc.Style().SetColor(GRAY)
+	row.Add(desc)
 	p.Add(row)
 }
 
 func buildComposite(p gwu.Panel) {
 	row := gwu.NewHorizontalPanel()
 	CompositeCb = gwu.NewCheckBox("视频合成")
-
+	CompositeCb.Style().SetColor("#FF6633")
+	CompositeCb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Composite.Switch = CompositeCb.State()
+	}, gwu.ETypeChange)
 	row.Add(CompositeCb)
 
+	row.AddHSpace(10)
 	row.Add(gwu.NewLabel("合成模式:"))
-	CompositeLb = gwu.NewListBox(common.TextColors)
+	CompositeLb = gwu.NewListBox(common.CompleteStyle)
 	CompositeLb.AddEHandlerFunc(func(e gwu.Event) {
-
-		if WaterTextColorLb.SelectedIdx() > 0 {
-			common.AppConfig.WaterText.Color = CompositeLb.SelectedValue()
-		}
-
+		common.AppConfig.Composite.Style = CompositeLb.SelectedIdx()
 	}, gwu.ETypeChange)
 	row.Add(CompositeLb)
 
 	p.Add(row)
+}
+
+func buildSubTitle(p gwu.Panel)  {
+
+	row := gwu.NewHorizontalPanel()
+	SubTitleCb = gwu.NewCheckBox("字幕属性")
+	SubTitleCb.Style().SetColor("#FF6633")
+	SubTitleCb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Subtitles.Switch = SubTitleCb.State()
+	}, gwu.ETypeClick)
+	row.Add(SubTitleCb)
+
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("字体大小:"))
+	SubTitleFontSizeTb = gwu.NewTextBox("")
+	SubTitleFontSizeTb.SetMaxLength(3)
+	SubTitleFontSizeTb.Style().SetWidthPx(50)
+	SubTitleFontSizeTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	SubTitleFontSizeTb.AddEHandlerFunc(func(e gwu.Event) {
+
+		common.AppConfig.Subtitles.FontSize =  common.IntValue(SubTitleFontSizeTb.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(SubTitleFontSizeTb)
+
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("字体颜色:"))
+	SubTitleFontColorTb = gwu.NewTextBox("")
+	SubTitleFontColorTb.SetMaxLength(7)
+	SubTitleFontColorTb.Style().SetWidthPx(50)
+	SubTitleFontColorTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	SubTitleFontColorTb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Subtitles.FontColor = SubTitleFontColorTb.Text()
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(SubTitleFontColorTb)
+
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("底部距离:"))
+	SubTitleMarginVTb = gwu.NewTextBox("")
+	SubTitleMarginVTb.SetMaxLength(3)
+	SubTitleMarginVTb.Style().SetWidthPx(50)
+	SubTitleMarginVTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	SubTitleMarginVTb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Subtitles.MarginV = common.IntValue(SubTitleMarginVTb.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(SubTitleMarginVTb)
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("背景条颜色:"))
+	BjColorTb = gwu.NewTextBox("")
+	BjColorTb.SetMaxLength(7)
+	BjColorTb.Style().SetWidthPx(50)
+	BjColorTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	BjColorTb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Subtitles.BjColor = BjColorTb.Text()
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(BjColorTb)
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("背景条透明度:"))
+	BjAlphaTb = gwu.NewTextBox("")
+	BjAlphaTb.SetMaxLength(3)
+	BjAlphaTb.Style().SetWidthPx(50)
+	BjAlphaTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	BjAlphaTb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Subtitles.BjAlpha = common.IntValue(BjAlphaTb.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(BjAlphaTb)
+
+	row.AddHSpace(10)
+	desc := gwu.NewLabel("透明度 0-10, 0表示完全透明, 10不透明")
+	desc.Style().SetColor(GRAY)
+	row.Add(desc)
+	p.Add(row)
+
+
+	p.AddVSpace(10)
+	row2 := gwu.NewHorizontalPanel()
+	CoverBjCb = gwu.NewCheckBox("遮盖原字幕")
+	CoverBjCb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Subtitles.CoverBj = CoverBjCb.State()
+	}, gwu.ETypeClick)
+	row2.Add(CoverBjCb)
+
+	row2.AddHSpace(10)
+	row2.Add(gwu.NewLabel("遮盖高度:"))
+	CoverHTb = gwu.NewTextBox("")
+	CoverHTb.SetMaxLength(3)
+	CoverHTb.Style().SetWidthPx(50)
+	CoverHTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	CoverHTb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Subtitles.CoverH = common.IntValue(CoverHTb.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row2.Add(CoverHTb)
+
+	row2.AddHSpace(10)
+	desc = gwu.NewLabel("高度不填,会自动识别高度")
+	desc.Style().SetColor(GRAY)
+	row2.Add(desc)
+
+	p.Add(row2)
+
 }
 
 //文字水印
@@ -361,6 +490,7 @@ func buildTwelveTextWater(p gwu.Panel) {
 	content := gwu.NewLabel("内容:")
 	row1.Add(content)
 	WaterTextTb = gwu.NewTextBox("")
+	WaterTextTb.SetToolTip("123123")
 	WaterTextTb.SetMaxLength(500)
 	WaterTextTb.AddSyncOnETypes(gwu.ETypeKeyUp)
 	WaterTextTb.AddEHandlerFunc(func(e gwu.Event) {
@@ -723,3 +853,4 @@ func buildSixteenHeadEnd(p gwu.Panel) {
 
 	p.Add(row2)
 }
+
