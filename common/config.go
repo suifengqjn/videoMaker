@@ -34,7 +34,6 @@ type GUIConfig struct {
 	ClearWater ClearWater
 	ClearWater1 ClearWater
 	ExtractSubtitles ExtractSubtitles
-	TextToVoice TextToVoice
 	Composite Composite
 	Subtitles Subtitles
 	WaterText WaterText
@@ -70,11 +69,19 @@ func NewAppConfig() *Config  {
 		Expiration:      7,
 	}
 
+	//自己的
 	clo := &cloud.AliYunCloud{
 		AccessKeyId:     "LTAI4Fr1h6k7YcfU7MGERKBB",
 		AccessKeySecret: "JkXerf7S2f0IV6TYjS4liLXpUSVo2s",
 		AppKey:          "0DaW2ROvgK4ZIpIA",
 	}
+
+	//
+	//clo := &cloud.AliYunCloud{
+	//	AccessKeyId:     "LTAI4FmZido1YHRtvVHgwJWV",
+	//	AccessKeySecret: "9mt5KzzV7n8r7wQ7sEpd35Vr65paD3",
+	//	AppKey:          "OzBv8WnzqilLlsYe",
+	//}
 
 	srt := &SrtConfig{
 		Setting:          setting{},

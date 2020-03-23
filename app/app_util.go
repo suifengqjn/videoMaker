@@ -7,26 +7,54 @@ import (
 	"myTool/ffmpeg"
 	"myTool/file"
 	"os"
-	"path/filepath"
-	"strconv"
 	"strings"
 )
 
-func (a *App)getVideos() []string  {
-	files, err := file.GetCurrentFiles(a.AppDir + "/video")
+func (a *App)getVideoDirs() []string  {
+	_,dirs, err := file.GetAllFilesAndDirs(a.AppDir + "/video")
 	if err != nil {
 		return nil
 	}
 
-	var videos []string
+	var videoDirs []string
+	for _, f := range dirs {
+		videoDirs = append(videoDirs,f)
+	}
+
+	return videoDirs
+
+}
+
+func getVideos(dir string)[]string  {
+	files, err := file.GetCurrentFiles(dir)
+	if err != nil {
+		return nil
+	}
+
+	var videoDirs []string
 	for _, f := range files {
 		if ffmpeg.IsVideo(f) {
-			videos = append(videos,f)
+			videoDirs = append(videoDirs,f)
 		}
 	}
 
-	return videos
+	return videoDirs
+}
 
+func getImages(dir string)[]string  {
+	files, err := file.GetCurrentFiles(dir)
+	if err != nil {
+		return nil
+	}
+
+	var images []string
+	for _, f := range files {
+		if ffmpeg.IsImage(f) {
+			images = append(images,f)
+		}
+	}
+
+	return images
 }
 
 
@@ -42,66 +70,63 @@ func (a *App)ClearTemp() {
 }
 
 
-func StringToValue(str string) int {
-	v, err := strconv.Atoi(str)
-	if err != nil {
-		return v
-	}
+// 获取字幕文件 从文件夹中找出 txt 或 srt
+func getTextOrSrtPath(dir string) string  {
 
-	if strings.HasPrefix(str, "+") {
-		str = strings.TrimPrefix(str, "+")
-		v, err := strconv.Atoi(str)
-		if err != nil {
-			return 0
+	files, _ := file.GetCurrentFiles(dir)
+	for _, f := range files {
+		if strings.HasSuffix(f,".txt") {
+			return f
 		}
-		return v
 	}
 
-	if strings.HasPrefix(str, "-") {
-		str = strings.TrimPrefix(str, "-")
-		v, err := strconv.Atoi(str)
-		if err != nil {
-			return 0
+	for _, f := range files {
+		if strings.HasSuffix(f,".srt") {
+			return f
 		}
-		return v
 	}
-	return 0
-}
-
-// 获取字幕文件
-func getSrtPath(f string) string  {
-	outputDir := filepath.Dir(f)
-	fileSuf := file.GetFileBaseName(f)
-	path1 := outputDir + "/" + fileSuf + "_"  + "0.srt"
-
-	if file.PathExist(path1) {
-		return path1
-	}
-
-	path1 = outputDir + "/" + fileSuf + "_"  + "1.srt"
-
-	if file.PathExist(path1) {
-		return path1
-	}
-	path1 = outputDir + "/" + fileSuf  + ".txt"
-	if file.PathExist(path1) {
-		return path1
-	}
-
-	fmt.Println("字幕文件或者文本文件不存在！")
 
 	return ""
 
 }
 
-func getVoicePath(f string) string  {
-	outputDir := filepath.Dir(f)
-	fileSuf := file.GetFileBaseName(f)
-	path := outputDir + "/" + fileSuf  + ".mp3"
-	return path
+func getSrtPath(dir string) string  {
+
+	files, _ := file.GetCurrentFiles(dir)
+	for _, f := range files {
+		if strings.HasSuffix(f,".srt") {
+			return f
+		}
+	}
+
+	return ""
+
+}
+
+func getVoicePath(dir string) string  {
+	files, _ := file.GetCurrentFiles(dir)
+	for _, f := range files {
+		if strings.HasSuffix(f,".mp3") {
+			return f
+		}
+	}
+
+	return ""
+}
+
+func getVideoPath(dir string) string  {
+	files, _ := file.GetCurrentFiles(dir)
+	for _, f := range files {
+		if ffmpeg.IsVideo(f) {
+			return f
+		}
+	}
+	return ""
 }
 
 // 获取字幕文件内容
+
+var spitRune = []rune{'，','。','？','！','\n',',','.'}
 func getSrtContent(f string) string  {
 
 	//字幕文件
@@ -119,13 +144,42 @@ func getSrtContent(f string) string  {
 				contents = append(contents, s)
 			}
 		}
-
 		return strings.Join(contents,",")
 
 	} else if strings.HasSuffix(f, "txt") {
 
+		buf, err := ioutil.ReadFile(f)
+		if err != nil {
+			fmt.Println(f, "文本文件有问题，请检查")
+			return ""
+		}
+		result := strings.FieldsFunc(string(buf), func(c rune) bool {
+
+			for _, r := range spitRune {
+				if c == r {
+					return true
+				}
+			}
+			return false
+		})
+
+		var res []string
+		for _, s := range result {
+			if len(strings.TrimSpace(s)) > 0 {
+				res = append(res, s)
+			}
+		}
+		return strings.Join(res,",")
 	}
+	return ""
+}
 
-	return "nil"
 
+
+func (a *App)BgmDir() string  {
+	return a.AppDir + "/bgm"
+}
+
+func (a *App)FontPath() string {
+	return a.AppDir + "/source/simsun.ttc"
 }

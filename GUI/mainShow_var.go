@@ -46,20 +46,16 @@ var (
 
 )
 
-//字幕或文本转语音
+//合成  4种模式
 var (
-	VoiceCb gwu.CheckBox
+	CompositeCb gwu.CheckBox
+	CompositeLb gwu.ListBox
 	SpeecherLb gwu.ListBox //播音人
 	VolumeTB  gwu.TextBox //音量
 	SpeexhRate gwu.TextBox // 语速
 	PitchRate gwu.TextBox //语调
 )
 
-//合成  仅配音 仅字幕 配音加字幕
-var (
-	CompositeCb gwu.CheckBox
-	CompositeLb gwu.ListBox
-)
 
 //字幕属性
 var (

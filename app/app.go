@@ -21,9 +21,7 @@ func NewApp() *App  {
 	return Engine
 }
 
-func (a *App)GenerateSrt(videoPath string)  {
-	a.createSrt(videoPath)
-}
+
 
 func (a *App)GetSrtConf() *common.SrtConfig  {
 	if a == nil {

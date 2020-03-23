@@ -24,18 +24,15 @@ type ExtractSubtitles struct {
 	Switch bool
 }
 
-type TextToVoice struct {
+type Composite struct {
 	Switch bool
+	Style int  //合成模式
 	Voice string  // 播音员
 	Volume int // 音量
 	SpeechRate int //语速
 	PitchRate int // 语调
 }
 
-type Composite struct {
-	Switch bool
-	Style int
-}
 
 //字幕样式
 type Subtitles struct {

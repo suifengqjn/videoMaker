@@ -8,7 +8,7 @@ import (
 
 var GRAY = "#808080"
 var titleLabel gwu.Label
-var defaultShowString = "原创参数配置，在需要执行的操作前面 勾选(注意勾选), 需要剪辑的视频放在video目录下,支持两级目录"
+var defaultShowString = "原创参数配置, 需要剪辑的视频放在video目录下,首次使用一定要看教程,1.0版只支持300汉字以内"
 
 func buildMainShowUI(event gwu.Event) gwu.Comp {
 	p := gwu.NewVerticalPanel()
@@ -25,24 +25,21 @@ func buildUI(p gwu.Panel) {
 
 	p.Add(titleLabel)
 
-	p.AddVSpace(10)
-	buildFourCutFront(p)
-
-	p.AddVSpace(10)
-	buildFiveCutBack(p)
-
-	p.AddVSpace(10)
-	buildSevenClearWater(p)
-
-	p.AddVSpace(10)
-	buildSevenClearWater2(p)
+	//p.AddVSpace(10)
+	//buildFourCutFront(p)
+	//
+	//p.AddVSpace(10)
+	//buildFiveCutBack(p)
+	//
+	//p.AddVSpace(10)
+	//buildSevenClearWater(p)
+	//
+	//p.AddVSpace(10)
+	//buildSevenClearWater2(p)
 
 	//-------//
 	p.AddVSpace(10)
 	buildSrtUI(p)
-
-	p.AddVSpace(10)
-	buildVoice(p)
 
 	p.AddVSpace(10)
 	buildComposite(p)
@@ -290,22 +287,30 @@ func buildSrtUI(p gwu.Panel) {
 	p.Add(row)
 }
 
-func buildVoice(p gwu.Panel) {
+func buildComposite(p gwu.Panel) {
 	row := gwu.NewHorizontalPanel()
-	VoiceCb = gwu.NewCheckBox("文字转语音")
-	VoiceCb.Style().SetColor("#FF6633")
-	VoiceCb.AddEHandlerFunc(func(e gwu.Event) {
-		common.AppConfig.TextToVoice.Switch = VoiceCb.State()
+	CompositeCb = gwu.NewCheckBox("视频合成")
+	CompositeCb.Style().SetColor("#FF6633")
+	CompositeCb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Composite.Switch = CompositeCb.State()
 	}, gwu.ETypeClick)
-	row.Add(VoiceCb)
+	row.Add(CompositeCb)
 
+
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("模式:"))
+	CompositeLb = gwu.NewListBox(common.CompleteStyle)
+	CompositeLb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Composite.Style = CompositeLb.SelectedIdx()
+	}, gwu.ETypeChange)
+	row.Add(CompositeLb)
 
 	row.AddHSpace(10)
 	row.Add(gwu.NewLabel("配音员:"))
 	SpeecherLb = gwu.NewListBox(common.Voiceover)
-	common.AppConfig.TextToVoice.Voice = "Xiaoyun"
+	common.AppConfig.Composite.Voice = "Xiaoyun"
 	SpeecherLb.AddEHandlerFunc(func(e gwu.Event) {
-		common.AppConfig.TextToVoice.Voice = common.VoiceoverMap[SpeecherLb.SelectedValue()]
+		common.AppConfig.Composite.Voice = common.VoiceoverMap[SpeecherLb.SelectedValue()]
 
 	}, gwu.ETypeChange)
 	row.Add(SpeecherLb)
@@ -316,10 +321,10 @@ func buildVoice(p gwu.Panel) {
 	VolumeTB.SetMaxLength(3)
 	VolumeTB.Style().SetWidthPx(50)
 	VolumeTB.AddSyncOnETypes(gwu.ETypeKeyUp)
-	common.AppConfig.TextToVoice.Volume = 50
+	common.AppConfig.Composite.Volume = 50
 	VolumeTB.AddEHandlerFunc(func(e gwu.Event) {
 
-		common.AppConfig.TextToVoice.Volume =  common.IntValue(VolumeTB.Text())
+		common.AppConfig.Composite.Volume =  common.IntValue(VolumeTB.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row.Add(VolumeTB)
 
@@ -330,7 +335,7 @@ func buildVoice(p gwu.Panel) {
 	SpeexhRate.Style().SetWidthPx(50)
 	SpeexhRate.AddSyncOnETypes(gwu.ETypeKeyUp)
 	SpeexhRate.AddEHandlerFunc(func(e gwu.Event) {
-		common.AppConfig.TextToVoice.SpeechRate = common.IntValue(SpeexhRate.Text())
+		common.AppConfig.Composite.SpeechRate = common.IntValue(SpeexhRate.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row.Add(SpeexhRate)
 
@@ -341,35 +346,24 @@ func buildVoice(p gwu.Panel) {
 	PitchRate.Style().SetWidthPx(50)
 	PitchRate.AddSyncOnETypes(gwu.ETypeKeyUp)
 	PitchRate.AddEHandlerFunc(func(e gwu.Event) {
-		common.AppConfig.TextToVoice.PitchRate = common.IntValue(PitchRate.Text())
+		common.AppConfig.Composite.PitchRate = common.IntValue(PitchRate.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row.Add(PitchRate)
 
-	row.AddHSpace(10)
+	p.Add(row)
+
+	p.AddVSpace(10)
+	row2 := gwu.NewHorizontalPanel()
+	row2.AddHSpace(100)
 	desc := gwu.NewLabel("音量,范围是0~100，默认50. 语速和语调范围是-500~500，默认是0")
 	desc.Style().SetColor(GRAY)
-	row.Add(desc)
-	p.Add(row)
-}
+	row2.Add(desc)
 
-func buildComposite(p gwu.Panel) {
-	row := gwu.NewHorizontalPanel()
-	CompositeCb = gwu.NewCheckBox("视频合成")
-	CompositeCb.Style().SetColor("#FF6633")
-	CompositeCb.AddEHandlerFunc(func(e gwu.Event) {
-		common.AppConfig.Composite.Switch = CompositeCb.State()
-	}, gwu.ETypeChange)
-	row.Add(CompositeCb)
+	row2.AddHSpace(30)
+	link := gwu.NewLink("颜色值选取","http://cha.buyiju.com/tool/color.html")
+	row2.Add(link)
 
-	row.AddHSpace(10)
-	row.Add(gwu.NewLabel("合成模式:"))
-	CompositeLb = gwu.NewListBox(common.CompleteStyle)
-	CompositeLb.AddEHandlerFunc(func(e gwu.Event) {
-		common.AppConfig.Composite.Style = CompositeLb.SelectedIdx()
-	}, gwu.ETypeChange)
-	row.Add(CompositeLb)
-
-	p.Add(row)
+	p.Add(row2)
 }
 
 func buildSubTitle(p gwu.Panel)  {
@@ -494,7 +488,6 @@ func buildTwelveTextWater(p gwu.Panel) {
 	WaterTextTb.SetMaxLength(500)
 	WaterTextTb.AddSyncOnETypes(gwu.ETypeKeyUp)
 	WaterTextTb.AddEHandlerFunc(func(e gwu.Event) {
-
 		common.AppConfig.WaterText.Content = WaterTextTb.Text()
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row1.Add(WaterTextTb)
@@ -507,7 +500,6 @@ func buildTwelveTextWater(p gwu.Panel) {
 	WaterTextSizeTb.Style().SetWidthPx(50)
 	WaterTextSizeTb.AddSyncOnETypes(gwu.ETypeKeyUp)
 	WaterTextSizeTb.AddEHandlerFunc(func(e gwu.Event) {
-
 		common.AppConfig.WaterText.Size = common.IntValue(WaterTextSizeTb.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row1.Add(WaterTextSizeTb)
@@ -554,7 +546,6 @@ func buildTwelveTextWater(p gwu.Panel) {
 	row2.Add(content)
 	WaterTextStyleLb = gwu.NewListBox(common.WaterStyle)
 	WaterTextStyleLb.AddEHandlerFunc(func(e gwu.Event) {
-
 		//fmt.Println(WaterTextStyleLb.SelectedIdx(),WaterTextStyleLb.SelectedValue())
 		for k, v := range common.WaterStyleMap {
 			if v == strings.TrimSpace(WaterTextStyleLb.SelectedValue()) {

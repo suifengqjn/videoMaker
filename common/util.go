@@ -52,39 +52,15 @@ var (
 		"Abby":"Abby","Andy":"Andy","Emily":"Emily","Eric":"Eric","Harry":"Harry","Luca":"Luca","Luna":"Luna","Olivia":"Olivia","Wendy":"Wendy","William":"William","伊娜":"Yina","宁儿":"Ninger","小云":"Xiaoyun","小刚":"Xiaogang","小北":"Xiaobei","小美":"Xiaomei","思佳":"Sijia","思婧":"Sijing","思彤":"Sitong","思悦":"Siyue","思琪":"Siqi","思诚":"Sicheng","瑞琳":"Ruilin","艾佳":"Aijia","艾夏":"Aixia","艾娜":"Aina","艾婧":"Aijing","艾宝":"Aibao","艾彤":"Aitong","艾悦":"Aiyue","艾琪":"Aiqi","艾美":"Aimei","艾薇":"Aiwei","艾诚":"Aicheng","艾达":"Aida","艾雅":"Aiya","艾雨":"Aiyu","若兮":"Ruoxi",
 	}
 
-	CompleteStyle = []string{"未选择","配音加字幕","仅配音","仅字幕"}
+	CompleteStyle = []string{"未选择","模式一:单视频+文案","模式二:多视频+文案","模式三:图片+文案","模式四:单视频"}
 	CompleteStyleMap = map[string]int{
 		"未选择":0,
-		"配音加字幕":1,
-		"仅配音":2,
-		"仅字幕":3,
+		"模式一:单视频+文案":1,
+		"模式二:多视频+文案":2,
+		"模式三:图片+文案": 3,
+		"模式四:单视频": 4,
 	}
 )
-
-func LoadVideos() []string {
-	var videos []string
-	files, dirs, err := file.GetCurrentFilesAndDirs(AppConfig.AppDir)
-	if err == nil {
-		videos = append(videos, files...)
-	}
-
-	for _, d := range dirs {
-
-		if strings.HasSuffix(d, "video/result") || strings.HasSuffix(d, `video\result`) {
-			continue
-		}
-		// 处理第一级文件夹内的视频
-		files, err := file.GetCurrentFiles(d)
-		if err != nil {
-			continue
-		}
-		videos = append(videos, files...)
-
-	}
-
-	return videos
-
-}
 
 func StrValue(v interface{}) string {
 
@@ -207,3 +183,4 @@ func Contains(s []string, e string) bool {
 	}
 	return false
 }
+
