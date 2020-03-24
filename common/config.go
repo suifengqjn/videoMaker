@@ -3,9 +3,11 @@ package common
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"myTool/aliyun/cloud"
 	"myTool/aliyun/oss"
 	"myTool/common"
+	"myTool/file"
 	"myTool/sys"
 	"os"
 )
@@ -60,38 +62,40 @@ func NewAppConfig() *Config  {
 		panic(err)
 	}
 
-	oss := &oss.AliYunOss{
-		Endpoint:        "oss-cn-beijing.aliyuncs.com",
-		AccessKeyId:     "LTAI4Fr1h6k7YcfU7MGERKBB",
-		AccessKeySecret: "JkXerf7S2f0IV6TYjS4liLXpUSVo2s",
-		BucketName:      "filecloud-store",
-		BucketDomain:    "filecloud-store.oss-cn-beijing.aliyuncs.com",
-		Expiration:      7,
+	var oss *oss.AliYunOss
+	var clo *cloud.AliYunCloud
+	conf, err := LoadSrtConf()
+	if err != nil {
+		oss = conf.AliYunOss
+		clo = conf.AliYunCloud
 	}
 
-	//自己的
-	clo := &cloud.AliYunCloud{
-		AccessKeyId:     "LTAI4Fr1h6k7YcfU7MGERKBB",
-		AccessKeySecret: "JkXerf7S2f0IV6TYjS4liLXpUSVo2s",
-		AppKey:          "0DaW2ROvgK4ZIpIA",
-	}
-
-	//
-	//clo := &cloud.AliYunCloud{
-	//	AccessKeyId:     "LTAI4FmZido1YHRtvVHgwJWV",
-	//	AccessKeySecret: "9mt5KzzV7n8r7wQ7sEpd35Vr65paD3",
-	//	AppKey:          "OzBv8WnzqilLlsYe",
+	//oss := &oss.AliYunOss{
+	//	Endpoint:        "oss-cn-beijing.aliyuncs.com",
+	//	AccessKeyId:     "LTAI4Fr1h6k7YcfU7MGERKBB",
+	//	AccessKeySecret: "JkXerf7S2f0IV6TYjS4liLXpUSVo2s",
+	//	BucketName:      "filecloud-store",
+	//	BucketDomain:    "filecloud-store.oss-cn-beijing.aliyuncs.com",
+	//	Expiration:      7,
 	//}
+	//
+	////自己的
+	//clo := &cloud.AliYunCloud{
+	//	AccessKeyId:     "LTAI4Fr1h6k7YcfU7MGERKBB",
+	//	AccessKeySecret: "JkXerf7S2f0IV6TYjS4liLXpUSVo2s",
+	//	AppKey:          "0DaW2ROvgK4ZIpIA",
+	//}
+
 
 	srt := &SrtConfig{
 		Setting:          setting{},
-		FCmd:            GetFCmd(0),
+		FCmd:             GetFCmd(0),
 		AliYunOss:        oss,
 		AliYunCloud:      clo,
 		IntelligentBlock: true,
 		TempDir:          projectDir + "/source/tempVideos",
 		AppDir:           projectDir,
-		OutPutDir:        "",
+		OutPutDir:        file.GetDeskTop() + "/video_maker",
 	}
 	AppConfig = &Config{
 		srt,
@@ -120,8 +124,18 @@ func GetFCmd(system int) string {
 
 }
 
-func LoadSrtConf()  {
+func LoadSrtConf()(*Config, error)  {
 
+	buf, err := ioutil.ReadFile(confPath)
+	if err != nil {
+		return nil, err
+	}
+	var conf Config
+	err = json.Unmarshal(buf,&conf)
+	if err != nil {
+		return nil,err
+	}
+	return &conf, nil
 }
 
 func SaveSrtConf()  {
@@ -131,4 +145,8 @@ func SaveSrtConf()  {
 	}
 	common.CoverWriteToFile(confPath, buf)
 
+}
+
+func getDeskTop() string  {
+	file.GetDeskTop()
 }

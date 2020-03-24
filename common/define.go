@@ -1,7 +1,7 @@
 package common
 
 var (
-	config1Path = "./source/files/config1.json"
+	configPath = "./source/files/conf.json"
 	config2Path = "./source/files/config2.json"
 	config3Path = "./source/files/config3.json"
 

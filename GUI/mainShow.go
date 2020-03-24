@@ -350,6 +350,10 @@ func buildComposite(p gwu.Panel) {
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row.Add(PitchRate)
 
+	row.AddHSpace(20)
+	link0 := gwu.NewLink("播音人","https://github.com/suifengqjn/videoMaker/blob/master/voicer.md")
+	row.Add(link0)
+
 	p.Add(row)
 
 	p.AddVSpace(10)
@@ -767,21 +771,21 @@ func buildFiveteenBgm(p gwu.Panel) {
 
 	}, gwu.ETypeClick)
 
-	row.Add(BgmCb)
+	//row.Add(BgmCb)
+	//row.AddHSpace(18)
+	//descLabel := gwu.NewLabel("是否覆盖:")
+	//row.Add(descLabel)
+	//
+	//BgmLb = gwu.NewListBox([]string{"未选择", "覆盖", "保留",})
+	//BgmLb.AddEHandlerFunc(func(e gwu.Event) {
+	//
+	//	common.AppConfig.AddBgm.Keep = BgmLb.SelectedIdx()
+	//
+	//}, gwu.ETypeChange)
+	//row.Add(BgmLb)
+
 	row.AddHSpace(18)
-	descLabel := gwu.NewLabel("是否覆盖:")
-	row.Add(descLabel)
-
-	BgmLb = gwu.NewListBox([]string{"未选择", "覆盖", "保留",})
-	BgmLb.AddEHandlerFunc(func(e gwu.Event) {
-
-		common.AppConfig.AddBgm.Keep = BgmLb.SelectedIdx()
-
-	}, gwu.ETypeChange)
-	row.Add(BgmLb)
-
-	row.AddHSpace(18)
-	descLabel = gwu.NewLabel("将背景音乐放入到bgm文件夹,随机添加")
+	descLabel := gwu.NewLabel("将背景音乐放入到bgm文件夹,随机添加")
 	descLabel.Style().SetColor(GRAY)
 	row.Add(descLabel)
 
