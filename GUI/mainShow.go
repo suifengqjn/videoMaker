@@ -445,6 +445,7 @@ func buildSubTitle(p gwu.Panel)  {
 	p.AddVSpace(10)
 	row2 := gwu.NewHorizontalPanel()
 	CoverBjCb = gwu.NewCheckBox("遮盖原字幕")
+	CoverBjCb.Style().SetColor("#FF6633")
 	CoverBjCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.Subtitles.CoverBj = CoverBjCb.State()
 	}, gwu.ETypeClick)

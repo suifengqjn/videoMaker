@@ -213,11 +213,15 @@ func (a *App)postEdit(videoPath, dir string) string  {
 	if a.FilmHead.Switch {
 		info, err := ffmpeg.GetVideoInfo(fCmd, f)
 		if err == nil {
-			
 			filmPath := a.AppDir + strings.TrimPrefix(a.FilmHead.Path, ".")
-			newHeader := ffmpeg.UpdateResolution(fCmd, filmPath, info.W, info.H)
+			if file.PathExist(filmPath) == false {
+				fmt.Println("片头文件有误")
+			} else {
+				newHeader := ffmpeg.UpdateResolution(fCmd, filmPath, info.W, info.H)
 
-			f = info.MergeVideoHeader(fCmd, newHeader, f)
+				f = info.MergeVideoHeader(fCmd, newHeader, f)
+			}
+
 		}
 
 	}
@@ -226,7 +230,11 @@ func (a *App)postEdit(videoPath, dir string) string  {
 		info, err := ffmpeg.GetVideoInfo(fCmd, f)
 		if err == nil {
 			newFooter := ffmpeg.UpdateResolution(fCmd, a.FilmFoot.Path, info.W, info.H)
-			f = info.MergeVideoFooter(fCmd, newFooter, f)
+			if file.PathExist(newFooter) == false {
+				fmt.Println("片尾文件有误")
+			} else {
+				f = info.MergeVideoFooter(fCmd, newFooter, f)
+			}
 		}
 
 	}
