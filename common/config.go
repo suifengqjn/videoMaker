@@ -62,10 +62,10 @@ func NewAppConfig() *Config  {
 		panic(err)
 	}
 
-	var oss *oss.AliYunOss
-	var clo *cloud.AliYunCloud
+	var oss = &oss.AliYunOss{}
+	var clo =&cloud.AliYunCloud{}
 	conf, err := LoadSrtConf()
-	if err != nil {
+	if err == nil {
 		oss = conf.AliYunOss
 		clo = conf.AliYunCloud
 	}
@@ -145,8 +145,4 @@ func SaveSrtConf()  {
 	}
 	common.CoverWriteToFile(confPath, buf)
 
-}
-
-func getDeskTop() string  {
-	file.GetDeskTop()
 }

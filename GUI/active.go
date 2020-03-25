@@ -21,7 +21,7 @@ func buildActiveUI(event gwu.Event) gwu.Comp {
 		buildUnActive(p)
 	}
 
-	buildBottom(p)
+	buildInviteBottom(p)
 	return p
 	
 }
@@ -139,7 +139,7 @@ func buildUnActive(p gwu.Panel)  {
 	p.Add(b)
 }
 
-func buildBottom(p gwu.Panel)  {
+func buildInviteBottom(p gwu.Panel)  {
 	buildInviteCodeUI(p)
 	buildInviteUI(p)
 }

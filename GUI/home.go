@@ -21,8 +21,6 @@ import (
 	"fmt"
 	"github.com/icza/gowut/gwu"
 	"log"
-	"myProject/videoMaker/account"
-	"myProject/videoMaker/app"
 )
 
 
@@ -90,30 +88,31 @@ func buildHome(sess gwu.Session) {
 	header.Add(title)
 
 
-	header.AddHSpace(200)
-	startBtn := gwu.NewButton("开始处理")
-	startBtn.Style().SetFontSize("18")
-	startBtn.Style().SetColor(gwu.ClrBlue)
+	//header.AddHSpace(200)
+	//startBtn := gwu.NewButton("开始处理")
+	//startBtn.Style().SetFontSize("18")
+	//startBtn.Style().SetColor(gwu.ClrBlue)
+	//
+	//startBtn.AddEHandlerFunc(func(e gwu.Event) {
+	//	if account.AppAccount.IsActive() == false {
+	//		titleLabel.SetText("请先在激活页面激活软件")
+	//		titleLabel.Style().SetColor("red")
+	//		e.MarkDirty(titleLabel)
+	//	}
+	//	go app.Engine.DoFactory()
+	//
+	//}, gwu.ETypeClick)
+	//header.Add(startBtn)
+	//
+	//header.AddHSpace(50)
+	//clearBtn := gwu.NewButton("清空配置")
+	//clearBtn.Style().SetFontSize("18")
+	//clearBtn.Style().SetColor(gwu.ClrBlue)
+	//clearBtn.AddEHandlerFunc(func(e gwu.Event) {
+	//
+	//}, gwu.ETypeClick)
+	//header.Add(clearBtn)
 
-	startBtn.AddEHandlerFunc(func(e gwu.Event) {
-		if account.AppAccount.IsActive() == false {
-			titleLabel.SetText("请先在激活页面激活软件")
-			titleLabel.Style().SetColor("red")
-			e.MarkDirty(titleLabel)
-		}
-		go app.Engine.DoFactory()
-
-	}, gwu.ETypeClick)
-	header.Add(startBtn)
-
-	header.AddHSpace(50)
-	clearBtn := gwu.NewButton("清空配置")
-	clearBtn.Style().SetFontSize("18")
-	clearBtn.Style().SetColor(gwu.ClrBlue)
-	clearBtn.AddEHandlerFunc(func(e gwu.Event) {
-
-	}, gwu.ETypeClick)
-	header.Add(clearBtn)
 	header.AddHConsumer()
 
 	header.AddHSpace(100)

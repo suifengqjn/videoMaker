@@ -2,6 +2,8 @@ package GUI
 
 import (
 	"github.com/icza/gowut/gwu"
+	"myProject/videoMaker/account"
+	"myProject/videoMaker/app"
 	"myProject/videoMaker/common"
 	"strings"
 )
@@ -63,6 +65,8 @@ func buildUI(p gwu.Panel) {
 	p.AddVSpace(10)
 	buildSixteenHeadEnd(p)
 
+	p.AddVSpace(25)
+	buildBottomBtn(p)
 }
 
 func buildFourCutFront(p gwu.Panel) {
@@ -771,7 +775,7 @@ func buildFiveteenBgm(p gwu.Panel) {
 
 	}, gwu.ETypeClick)
 
-	//row.Add(BgmCb)
+	row.Add(BgmCb)
 	//row.AddHSpace(18)
 	//descLabel := gwu.NewLabel("是否覆盖:")
 	//row.Add(descLabel)
@@ -850,3 +854,26 @@ func buildSixteenHeadEnd(p gwu.Panel) {
 	p.Add(row2)
 }
 
+func buildBottomBtn(p gwu.Panel) {
+	row := gwu.NewHorizontalPanel()
+
+	row.AddHSpace(300)
+	startBtn := gwu.NewButton("开始处理")
+	startBtn.Style().SetFontSize("18")
+	startBtn.Style().SetColor(gwu.ClrBlue)
+
+	startBtn.AddEHandlerFunc(func(e gwu.Event) {
+		if account.AppAccount.IsActive() == false {
+			titleLabel.SetText("请先在激活页面激活软件")
+			titleLabel.Style().SetColor("red")
+			e.MarkDirty(titleLabel)
+			return
+		}
+		go app.Engine.DoFactory()
+
+	}, gwu.ETypeClick)
+
+	row.Add(startBtn)
+	p.Add(row)
+
+}

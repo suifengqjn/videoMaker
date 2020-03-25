@@ -17,23 +17,45 @@ func (a *App) DoFactory() {
 		return
 	}
 
-	videos := a.getVideoDirs()
-	if len(videos) == 0 {
-		fmt.Println("没有视频需要处理")
-	}
-	IsDealing = true
-	fmt.Printf("本次读取到 %v 个文件夹\n",len(videos))
-	for i, f := range videos {
-		fmt.Printf("处理第 %v 个文件夹\n", i+1)
-		a.editVideo(f)
+	videoDirs := a.getVideoDirs()
+
+	if len(videoDirs) > 0 {
+		fmt.Println("进行视频原创生成...")
+		IsDealing = true
+		fmt.Printf("本次读取到 %v 个文件夹\n",len(videoDirs))
+		for i, f := range videoDirs {
+			fmt.Printf("处理第 %v 个文件夹\n", i+1)
+			a.doCompositeVideo(f)
+		}
+		fmt.Printf("视频原创处理结束, 一共处理了 %v 个文件夹\n\n\n", len(videoDirs))
+
 	}
 
-	fmt.Printf("视频处理结束, 一共处理了 %v 个文件夹\n\n\n", len(videos))
+	dir := a.AppDir + "/video"
+	videos := getVideos(dir)
+	if len(videos) > 0 {
+		IsDealing = true
+		a.doEditVideo(videos, dir)
+		fmt.Println("视频后期处理结束")
+	}
+
+	if len(videoDirs) == 0 && len(videos) == 0 {
+		fmt.Println("没有视频需要处理")
+	}
+
 	IsDealing = false
+
 
 }
 
-func (a *App) editVideo(dir string) bool {
+func (a *App) doEditVideo(videos []string, dir string) {
+	for _, f := range videos {
+		a.postEdit(f, dir)
+	}
+}
+
+
+func (a *App) doCompositeVideo(dir string) {
 
 	//预处理
 	//f = a.prepareEdit(f)
@@ -47,26 +69,10 @@ func (a *App) editVideo(dir string) bool {
 	if len(videoPath) > 0 {  //合成时候处理
 		// 后处理
 		videoPath = a.postEdit(videoPath, dir)
-	} else { // 不合成后处理
-		files, err := file.GetCurrentFiles(dir)
-		if err != nil {
-			return false
-		}
-		for _, f := range files {
-			if file.GetFileBaseName(f) == "output" {
-				a.postEdit(f, dir)
-			}
-		}
 	}
-
-
-
-	return true
-
 }
 
 func (a *App) prepareEdit(f string) string {
-
 	fCmd := a.FCmd
 	tempf := f
 	if a.CutFront.Switch && a.CutBack.Switch {
@@ -125,6 +131,9 @@ func (a *App) prepareEdit(f string) string {
 
 func (a *App)postEdit(videoPath, dir string) string  {
 
+	if file.PathExist(videoPath) == false {
+		return ""
+	}
 	fCmd := a.FCmd
 	f := videoPath
 	tempf := videoPath
@@ -217,8 +226,7 @@ func (a *App)postEdit(videoPath, dir string) string  {
 			if file.PathExist(filmPath) == false {
 				fmt.Println("片头文件有误")
 			} else {
-				newHeader := ffmpeg.UpdateResolution(fCmd, filmPath, info.W, info.H)
-
+				newHeader := ffmpeg.UpdateVideoSize(fCmd, filmPath, info.W, info.H)
 				f = info.MergeVideoHeader(fCmd, newHeader, f)
 			}
 
@@ -239,7 +247,8 @@ func (a *App)postEdit(videoPath, dir string) string  {
 
 	}
 	if tempf != f {
-		file.MoveFile(f, dir + "/output_post." + file.GetFileSuf(f))
+		result := fmt.Sprintf("%v/%v_result.%v", dir, file.GetFileBaseName(f),file.GetFileSuf(f))
+		file.MoveFile(f, result)
 	}
 	return ""
 }

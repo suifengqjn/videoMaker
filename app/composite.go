@@ -5,7 +5,6 @@ import (
 	"myTool/common"
 	"myTool/ffmpeg"
 	"myTool/file"
-	"myTool/goExt"
 	"myTool/imageSplice"
 	"strings"
 )
@@ -49,13 +48,13 @@ func (a *App)composite(dir string) string  {
 	case 4:
 		video =  a.compositeStyle1(dir)
 	default:
-		fmt.Println("没有此选项")
+		fmt.Println("没有选择视频合成模式")
 	}
 
-	output := dir + "/" + "output." + file.GetFileSuf(video)
+	output := fmt.Sprintf("%v/%v_output.%v", dir, file.GetFileBaseName(video),file.GetFileSuf(video))
 	file.MoveFile(video, output)
 
-	return ""
+	return output
 }
 
 func (a *App)compositeVideo(videoPath, dir string) string {
@@ -129,7 +128,7 @@ func (a *App)compositeStyle2(dir string) string {
 	}
 	output := dir + "/" + common.GetRandomString(6) + "." + file.GetFileSuf(videos[0])
 	//视频随机合并
-	goExt.Shuffle(videos)
+	common.Shuffle(videos)
 	output,_= ffmpeg.MergeMultiVideoByResolution(a.FCmd, videos, output, 0, 0)
 
 	videoInfo, err := ffmpeg.GetVideoInfo(a.FCmd, output)
@@ -173,7 +172,7 @@ func (a *App)compositeStyle3(dir string) string {
 
 	//图片合成视频
 	images := getImages(dir)
-	goExt.Shuffle(images)
+	common.Shuffle(images)
 	videoPath := ffmpeg.CreateVideosByImages(a.FCmd,images,2,4,info.Duration)
 
 	//3. 合成
@@ -213,6 +212,8 @@ func (a *App)AddSubTitle(videoPath, dir string) string  {
 	marginV := a.Subtitles.MarginV
 	bjColor :=  a.Subtitles.BjColor
 	bjColorAlpha := a.Subtitles.BjAlpha
+
+	fmt.Println("字幕文件", srt)
 	videoPath = info.AddSubTitle(a.FCmd,
 		srt,
 		fontColor,

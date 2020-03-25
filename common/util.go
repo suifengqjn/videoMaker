@@ -1,9 +1,7 @@
 package common
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"myTool/ffmpeg"
 	"myTool/file"
 	"os"
@@ -84,30 +82,6 @@ func IntValue(v string) int {
 	return value
 }
 
-
-func LoadConfig1() *Config {
-	buf, err := ioutil.ReadFile(config1Path)
-	if err != nil {
-		return nil
-	}
-
-	err = json.Unmarshal(buf, &AppConfig)
-	if err != nil {
-		return nil
-	}
-
-	return AppConfig
-
-}
-
-func SaveConfig1(con *Config) {
-
-	buf, err := json.Marshal(con)
-	if err == nil {
-		writeToFile(config1Path, buf)
-	}
-
-}
 
 
 
