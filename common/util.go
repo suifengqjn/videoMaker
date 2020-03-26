@@ -97,9 +97,9 @@ func LoadFonts() (map[string]string, []string) {
 	var files []string
 	var err error
 	if sys.GetSysInfo().PlatForm == sys.MacOS {
-		files, err = file.GetAllFiles("./source/font/")
-	} else {
 		files, err = file.GetAllFiles(fontPath)
+	} else {
+		files, err = file.GetAllFiles("./source/font/")
 	}
 	if err != nil {
 		return nil, nil

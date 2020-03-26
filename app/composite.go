@@ -192,6 +192,11 @@ func (a *App) AddSubTitle(videoPath, dir string) string {
 	// 覆盖原有字幕
 	if a.Subtitles.CoverBj {
 		videoPath = a.coverOldSubTitle(info, info.W, a.Subtitles.CoverH)
+
+		info, err = ffmpeg.GetVideoInfo(a.FCmd, videoPath)
+		if err != nil {
+			fmt.Println("字母覆盖失败")
+		}
 	}
 
 	// 获取字幕文件

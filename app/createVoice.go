@@ -20,7 +20,6 @@ func (a *App) createVoice(dir string) (string, error) {
 		fmt.Println("文件内容为空, 检查此目录", dir)
 		return "", errors.New("err")
 	}
-	fmt.Println(content)
 
 	fmt.Println("进行文本转语音...")
 	// 语音输出路径
