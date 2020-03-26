@@ -456,7 +456,7 @@ func buildSubTitle(p gwu.Panel)  {
 	CoverBjCb.Style().SetColor("#FF6633")
 	CoverBjCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.Subtitles.CoverBj = CoverBjCb.State()
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 	row2.Add(CoverBjCb)
 
 	row2.AddHSpace(10)
