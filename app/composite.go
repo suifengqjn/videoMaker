@@ -32,48 +32,50 @@ style
 	4.4 合成
 */
 
-func (a *App)composite(dir string) string  {
+func (a *App) composite(dir string) string {
 	style := a.Composite.Style
 	video := ""
 	if style > 0 {
-		fmt.Println("进行视频原创处理",dir)
+		fmt.Println("进行视频原创处理", dir)
 	}
 	switch style {
-	case 1:
-		video =  a.compositeStyle1(dir)
-	case 2:
-		video =  a.compositeStyle2(dir)
-	case 3:
-		video =  a.compositeStyle3(dir)
-	case 4:
-		video =  a.compositeStyle1(dir)
-	default:
+		case 1:
+			video = a.compositeStyle1(dir)
+		case 2:
+			video = a.compositeStyle2(dir)
+		case 3:
+			video = a.compositeStyle3(dir)
+		case 4:
+			video = a.compositeStyle1(dir)
+		default:
 		fmt.Println("没有选择视频合成模式")
 	}
-
-	output := fmt.Sprintf("%v/%v_output.%v", dir, file.GetFileBaseName(video),file.GetFileSuf(video))
+	if video == "" {
+		return ""
+	}
+	output := fmt.Sprintf("%v/%v_output.%v", dir, file.GetFileBaseName(video), file.GetFileSuf(video))
 	file.MoveFile(video, output)
 
 	return output
 }
 
-func (a *App)compositeVideo(videoPath, dir string) string {
+func (a *App) compositeVideo(videoPath, dir string) string {
 
 	fmt.Println("进行视频合成...")
 	//添加音频
 	audio := getVoicePath(dir)
-	info, err := ffmpeg.GetVideoInfo(a.FCmd,videoPath)
+	info, err := ffmpeg.GetVideoInfo(a.FCmd, videoPath)
 	if err != nil {
 		return videoPath
 	}
-	resultPath := info.AddBgmShortest(a.FCmd,videoPath,audio,true)
+	resultPath := info.AddBgmShortest(a.FCmd, videoPath, audio, true)
 
 	//添加字幕
 	return a.AddSubTitle(resultPath, dir)
 
 }
 
-func (a *App)compositeStyle1(dir string) string {
+func (a *App) compositeStyle1(dir string) string {
 
 	// 1. 文字转语音
 	if getVoicePath(dir) == "" {
@@ -97,7 +99,7 @@ func (a *App)compositeStyle1(dir string) string {
 
 }
 
-func (a *App)compositeStyle2(dir string) string {
+func (a *App) compositeStyle2(dir string) string {
 	// 1. 文字转语音
 	if getVoicePath(dir) == "" {
 		a.createVoice(dir)
@@ -116,7 +118,7 @@ func (a *App)compositeStyle2(dir string) string {
 	}
 
 	//音频长度
-	info , err := ffmpeg.GetVideoInfo(a.FCmd, audioPath)
+	info, err := ffmpeg.GetVideoInfo(a.FCmd, audioPath)
 	if err != nil {
 		return ""
 	}
@@ -129,7 +131,7 @@ func (a *App)compositeStyle2(dir string) string {
 	output := dir + "/" + common.GetRandomString(6) + "." + file.GetFileSuf(videos[0])
 	//视频随机合并
 	common.Shuffle(videos)
-	output,_= ffmpeg.MergeMultiVideoByResolution(a.FCmd, videos, output, 0, 0)
+	output, _ = ffmpeg.MergeMultiVideoByResolution(a.FCmd, videos, output, 0, 0)
 
 	videoInfo, err := ffmpeg.GetVideoInfo(a.FCmd, output)
 	if err != nil {
@@ -146,9 +148,8 @@ func (a *App)compositeStyle2(dir string) string {
 
 }
 
-
 // 图片加文案
-func (a *App)compositeStyle3(dir string) string {
+func (a *App) compositeStyle3(dir string) string {
 
 	// 1. 文字转语音
 	if getVoicePath(dir) == "" {
@@ -165,7 +166,7 @@ func (a *App)compositeStyle3(dir string) string {
 		a.createSrtWithAudio(audioPath)
 	}
 
-	info , err := ffmpeg.GetVideoInfo(a.FCmd, getVoicePath(dir))
+	info, err := ffmpeg.GetVideoInfo(a.FCmd, getVoicePath(dir))
 	if err != nil {
 		return ""
 	}
@@ -173,30 +174,29 @@ func (a *App)compositeStyle3(dir string) string {
 	//图片合成视频
 	images := getImages(dir)
 	common.Shuffle(images)
-	videoPath := ffmpeg.CreateVideosByImages(a.FCmd,images,2,4,info.Duration)
+	videoPath := ffmpeg.CreateVideosByImages(a.FCmd, images, 2, 4, info.Duration)
 
 	//3. 合成
 	return a.compositeVideo(videoPath, dir)
 
 }
 
-
 //添加字幕
-func (a *App)AddSubTitle(videoPath, dir string) string  {
+func (a *App) AddSubTitle(videoPath, dir string) string {
 
 	fmt.Println("添加字幕中...")
-	info, err := ffmpeg.GetVideoInfo(a.FCmd,videoPath)
+	info, err := ffmpeg.GetVideoInfo(a.FCmd, videoPath)
 	if err != nil {
 		return videoPath
 	}
 	// 覆盖原有字幕
 	if a.Subtitles.CoverBj {
-		videoPath = a.coverOldSubTitle(info, info.W,a.Subtitles.CoverH)
+		videoPath = a.coverOldSubTitle(info, info.W, a.Subtitles.CoverH)
 	}
 
 	// 获取字幕文件
 	srt := getSrtPath(dir)
-	if strings.HasSuffix(srt,"srt") == false {
+	if strings.HasSuffix(srt, "srt") == false {
 		fmt.Println("字幕文件不存在", srt)
 	}
 
@@ -210,7 +210,7 @@ func (a *App)AddSubTitle(videoPath, dir string) string  {
 		fontSize = 20
 	}
 	marginV := a.Subtitles.MarginV
-	bjColor :=  a.Subtitles.BjColor
+	bjColor := a.Subtitles.BjColor
 	bjColorAlpha := a.Subtitles.BjAlpha
 
 	videoPath = info.AddSubTitle(a.FCmd,
@@ -227,22 +227,21 @@ func (a *App)AddSubTitle(videoPath, dir string) string  {
 	return videoPath
 }
 
-
-func (a *App)coverOldSubTitle(info *ffmpeg.VideoInfo,videoW int,h int) string {
+func (a *App) coverOldSubTitle(info *ffmpeg.VideoInfo, videoW int, h int) string {
 
 	// 计算黑边尺寸
 	lineHeight := h
-	imagePath := ffmpeg.Snip(a.FCmd,info.VideoPath,"20","1")
+	imagePath := ffmpeg.Snip(a.FCmd, info.VideoPath, "20", "1")
 	if h <= 0 {
-		_,lineHeight,_ = imageSplice.BottomLineHeight(imagePath)
-		if lineHeight == 0{
+		_, lineHeight, _ = imageSplice.BottomLineHeight(imagePath)
+		if lineHeight == 0 {
 			lineHeight = 100
 		}
 	}
 
 	//构造黑边
 	imageLine := ffmpeg.MakeRandExportPath("jpg")
-	err := imageSplice.CreateImage(videoW, lineHeight,"#000000",imageLine)
+	err := imageSplice.CreateImage(videoW, lineHeight, "#000000", imageLine)
 
 	if err != nil {
 		return ""

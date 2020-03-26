@@ -75,7 +75,7 @@ func buildFourCutFront(p gwu.Panel) {
 	cutHeadCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.CutFront.Switch = cutHeadCb.State()
 
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 
 	row.Add(cutHeadCb)
 
@@ -109,7 +109,7 @@ func buildFiveCutBack(p gwu.Panel) {
 
 		common.AppConfig.CutBack.Switch = cutBackCb.State()
 
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 
 	row.Add(cutBackCb)
 	row.AddHSpace(18)
@@ -139,7 +139,7 @@ func buildSevenClearWater(p gwu.Panel) {
 
 		common.AppConfig.ClearWater.Switch = ClearWaterCb.State()
 
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 
 	row.Add(ClearWaterCb)
 	row.AddHSpace(18)
@@ -211,7 +211,7 @@ func buildSevenClearWater2(p gwu.Panel) {
 	ClearWater2Cb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.ClearWater1.Switch = ClearWater2Cb.State()
 
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 
 	row.Add(ClearWater2Cb)
 	row.AddHSpace(10)
@@ -285,7 +285,7 @@ func buildSrtUI(p gwu.Panel) {
 	SrtCb.Style().SetColor("#FF6633")
 	SrtCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.ExtractSubtitles.Switch = SrtCb.State()
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 
 	row.Add(SrtCb)
 	p.Add(row)
@@ -297,7 +297,7 @@ func buildComposite(p gwu.Panel) {
 	CompositeCb.Style().SetColor("#FF6633")
 	CompositeCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.Composite.Switch = CompositeCb.State()
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 	row.Add(CompositeCb)
 
 
@@ -381,7 +381,7 @@ func buildSubTitle(p gwu.Panel)  {
 	SubTitleCb.Style().SetColor("#FF6633")
 	SubTitleCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.Subtitles.Switch = SubTitleCb.State()
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 	row.Add(SubTitleCb)
 
 
@@ -485,7 +485,7 @@ func buildTwelveTextWater(p gwu.Panel) {
 	WaterTextCb = gwu.NewCheckBox("文字水印")
 	WaterTextCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.WaterText.Switch = WaterTextCb.State()
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 
 	row1.Add(WaterTextCb)
 
@@ -599,7 +599,7 @@ func buildTwelveTextWater2(p gwu.Panel) {
 	RunWaterTextCb = gwu.NewCheckBox("滚动文字")
 	RunWaterTextCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.RunWaterText.Switch = RunWaterTextCb.State()
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 
 	row1.Add(RunWaterTextCb)
 
@@ -702,7 +702,7 @@ func buildThirteenImageWater(p gwu.Panel) {
 	WaterImageCb = gwu.NewCheckBox("图片水印")
 	WaterImageCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.WaterImage.Switch = WaterImageCb.State()
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 	row.Add(WaterImageCb)
 
 	row.AddHSpace(18)
@@ -773,7 +773,7 @@ func buildFiveteenBgm(p gwu.Panel) {
 
 		common.AppConfig.AddBgm.Switch = BgmCb.State()
 
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 
 	row.Add(BgmCb)
 	//row.AddHSpace(18)
@@ -804,7 +804,7 @@ func buildSixteenHeadEnd(p gwu.Panel) {
 
 		common.AppConfig.FilmHead.Switch = filmHeadCb.State()
 
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 	row.Add(filmHeadCb)
 
 	row.AddHSpace(50)
@@ -834,7 +834,7 @@ func buildSixteenHeadEnd(p gwu.Panel) {
 	filmFootCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.FilmFoot.Switch = filmFootCb.State()
 
-	}, gwu.ETypeClick)
+	}, gwu.ETypeClick,gwu.ETypeStateChange)
 	row2.Add(filmFootCb)
 
 	row2.AddHSpace(50)

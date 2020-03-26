@@ -64,6 +64,8 @@ func (a *App) doCompositeVideo(dir string) {
 	videoPath := ""
 	if a.Composite.Switch {
 		videoPath = a.composite(dir)
+	} else {
+		fmt.Println("本次没有选择原创选项")
 	}
 
 	if len(videoPath) > 0 {  //合成时候处理
