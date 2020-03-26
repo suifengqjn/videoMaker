@@ -181,5 +181,5 @@ func (a *App)BgmDir() string  {
 }
 
 func (a *App)FontPath() string {
-	return a.AppDir + "/source/simsun.ttc"
+	return "./source/simsun.ttc"
 }
