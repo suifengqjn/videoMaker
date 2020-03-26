@@ -17,6 +17,7 @@ build
 video
 bgm
 .idea
+*.zip
 log
 source/tempVideos
 source/font
