@@ -82,7 +82,7 @@ func buildHome(sess gwu.Session) {
 
 	header := gwu.NewHorizontalPanel()
 	header.Style().SetFullWidth().SetBorderBottom2(2, gwu.BrdStyleSolid, "#cccccc")
-	title := gwu.NewLink("视频原创生成器", win.Name())
+	title := gwu.NewLink("AI全自动原创视频生成器", win.Name())
 	title.SetTarget("")
 	title.Style().SetColor(gwu.ClrBlue).SetFontWeight(gwu.FontWeightBold).SetFontSize("120%").Set("text-decoration", "none")
 	header.Add(title)

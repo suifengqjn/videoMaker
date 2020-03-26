@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"myTool/ffmpeg"
 	"myTool/file"
+	"myTool/sys"
 	"os"
 	"path/filepath"
 	"sort"
@@ -93,7 +94,13 @@ func writeToFile(filepath string, buf []byte) {
 }
 
 func LoadFonts() (map[string]string, []string) {
-	files, err := file.GetAllFiles(fontPath)
+	var files []string
+	var err error
+	if sys.GetSysInfo().PlatForm == sys.MacOS {
+		files, err = file.GetAllFiles("./source/font/")
+	} else {
+		files, err = file.GetAllFiles(fontPath)
+	}
 	if err != nil {
 		return nil, nil
 	}

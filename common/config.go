@@ -70,23 +70,6 @@ func NewAppConfig() *Config  {
 		clo = conf.AliYunCloud
 	}
 
-	//oss := &oss.AliYunOss{
-	//	Endpoint:        "oss-cn-beijing.aliyuncs.com",
-	//	AccessKeyId:     "LTAI4Fr1h6k7YcfU7MGERKBB",
-	//	AccessKeySecret: "JkXerf7S2f0IV6TYjS4liLXpUSVo2s",
-	//	BucketName:      "filecloud-store",
-	//	BucketDomain:    "filecloud-store.oss-cn-beijing.aliyuncs.com",
-	//	Expiration:      7,
-	//}
-	//
-	////自己的
-	//clo := &cloud.AliYunCloud{
-	//	AccessKeyId:     "LTAI4Fr1h6k7YcfU7MGERKBB",
-	//	AccessKeySecret: "JkXerf7S2f0IV6TYjS4liLXpUSVo2s",
-	//	AppKey:          "0DaW2ROvgK4ZIpIA",
-	//}
-
-
 	srt := &SrtConfig{
 		Setting:          setting{},
 		FCmd:             GetFCmd(0),

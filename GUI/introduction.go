@@ -5,7 +5,7 @@ import "github.com/icza/gowut/gwu"
 func buildIntroduction(event gwu.Event) gwu.Comp {
 	p := gwu.NewVerticalPanel()
 
-	label := gwu.NewLabel("核心功能:批量给自动配音 + 自动添加字幕")
+	label := gwu.NewLabel("核心功能:批量给自动配音 + 自动添加字幕 + 视频合成")
 	label.Style().SetFontSize("16")
 	label.Style().SetColor(gwu.ClrBlue)
 	p.Add(label)
@@ -17,9 +17,11 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	p.Add(label)
 
 	arr := []string {
-		"模式1: 素材只有一个视频",
-		"模式2: 素材一个视频 + 文案",
-		"模式2: 素材有两个视频",
+		"模式1: 单视频 + 文案 生成原创视频",
+		"模式2: 多视频 + 文案 生成原创视频",
+		"模式3: 图片 + 文案生成原创视频",
+		"模式4: 仅单视频 生成原创视频",
+		"后续增加更多模式...",
 	}
 
 	for _, s := range arr {
@@ -35,20 +37,20 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	p.Add(img)
 
 	p.AddVSpace(20)
-	link := gwu.NewLink("视频教程", "https://github.com/suifengqjn/videoWater/blob/master/README_3.md")
+	link := gwu.NewLink("视频教程", "https://github.com/suifengqjn/videoMaker/blob/master/shipin.md.md")
 	p.Add(link)
 
 	p.AddVSpace(20)
-	link = gwu.NewLink("软件地址", "https://github.com/suifengqjn/videoWater")
+	link = gwu.NewLink("软件地址", "https://github.com/suifengqjn/videoMaker")
 	p.Add(link)
 
 	p.AddVSpace(20)
 	link = gwu.NewLink("密钥购买", "https://pr.kuaifaka.com/item/3ZUpQ")
 	p.Add(link)
 
-	p.AddVSpace(50)
-	link = gwu.NewLink("常见问题", "https://github.com/suifengqjn/videoWater/blob/master/QREADME.md")
-	p.Add(link)
+	//p.AddVSpace(50)
+	//link = gwu.NewLink("常见问题", "https://github.com/suifengqjn/videoWater/blob/master/QREADME.md")
+	//p.Add(link)
 
 
 	return p

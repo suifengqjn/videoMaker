@@ -8,7 +8,7 @@ import (
 	"myTool/file"
 )
 
-var AppAccount *Account
+var AppAccount = &Account{}
 
 type Account struct {
 	*appAccount.AppAccount
@@ -78,9 +78,10 @@ func (e *Account)InviteCode()(int, string)  {
 	return e.AppAccount.InviteNum, e.AppAccount.InViteCode
 }
 
+
 func LoadAppId() string  {
-	if file.PathExist(cm.AppIdPath) {
-		byte, err := ioutil.ReadFile(cm.AppIdPath)
+	if file.PathExist(cm.AppKeyPath()) {
+		byte, err := ioutil.ReadFile(cm.AppKeyPath())
 		if err != nil || len(byte) < 10 {
 			return ""
 		}
@@ -90,7 +91,8 @@ func LoadAppId() string  {
 }
 
 func SaveAppId(appId string)  {
-
-	common.CoverWriteToFile(cm.AppIdPath, []byte(appId))
-
+	common.CoverWriteToFile(cm.AppKeyPath(), []byte(appId))
 }
+
+
+
