@@ -29,7 +29,13 @@
 
 [查看播音人详情](https://github.com/suifengqjn/videoMaker/blob/master/voicer.md)
 
-界面展示
+
+使用前必须要看视频教程
+[视频教程](https://github.com/suifengqjn/videoMaker/blob/master/shipin.md)
+
+软件界面展示
+
+![](https://raw.githubusercontent.com/suifengqjn/videoMaker/master/image/1.png)
 
 目前支持以下功能
 * [x] [字幕提取] 
