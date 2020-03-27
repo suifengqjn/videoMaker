@@ -30,10 +30,22 @@ func buildPlatform(event gwu.Event) gwu.Comp {
 }
 
 func buildAliYun(p gwu.Panel)  {
+
+	row := gwu.NewHorizontalPanel()
+
 	title := gwu.NewLabel("阿里云参数")
 	title.Style().SetColor(gwu.ClrBlue)
-	p.Add(title)
+	row.Add(title)
 
+	row.AddHSpace(20)
+	link := gwu.NewLink("参数获取地址", "https://www.aliyun.com/")
+	row.Add(link)
+
+	row.AddHSpace(20)
+	link = gwu.NewLink("参数教程", "https://www.aliyun.com/")
+	row.Add(link)
+
+	p.Add(row)
 	buildAliYunOss(p)
 }
 
@@ -53,7 +65,6 @@ func buildAliYunOss(p gwu.Panel)  {
 	tb1 := gwu.NewTextBox(srt.AliYunOss.AccessKeyId)
 	tb1.Style().SetWidth("300")
 	tb1.AddEHandlerFunc(func(e gwu.Event) {
-		fmt.Println("11",tb1.Text())
 		srt.AliYunOss.AccessKeyId = strings.TrimSpace(tb1.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row1.Add(tb1)
@@ -67,7 +78,6 @@ func buildAliYunOss(p gwu.Panel)  {
 	tb2 := gwu.NewPasswBox(srt.AliYunOss.AccessKeySecret)
 	tb2.Style().SetWidth("300")
 	tb2.AddEHandlerFunc(func(e gwu.Event) {
-		fmt.Println("pass",tb2.Text())
 		srt.AliYunOss.AccessKeySecret = strings.TrimSpace(tb2.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row2.Add(tb2)
@@ -80,7 +90,6 @@ func buildAliYunOss(p gwu.Panel)  {
 	tb3 := gwu.NewTextBox(srt.AliYunOss.Endpoint)
 	tb3.Style().SetWidth("300")
 	tb3.AddEHandlerFunc(func(e gwu.Event) {
-
 		srt.AliYunOss.Endpoint = strings.TrimSpace(tb3.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row3.Add(tb3)
@@ -122,7 +131,7 @@ func buildAliYunOss(p gwu.Panel)  {
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row6.Add(tb6)
 	row6.AddHSpace(10)
-	desc := gwu.NewLabel("如比设置7，删除7天前上传到OSS的文件，也可以不设置")
+	desc := gwu.NewLabel("如比设置3，删除3天前上传到OSS的文件，也可以不设置")
 	desc.Style().SetColor(gwu.ClrGray)
 	row6.Add(desc)
 	p.Add(row6)
@@ -145,7 +154,7 @@ func buildAliYunVoice(p gwu.Panel) {
 	tb1 := gwu.NewTextBox(srt.AliYunCloud.AccessKeyId)
 	tb1.Style().SetWidth("300")
 	tb1.AddEHandlerFunc(func(e gwu.Event) {
-		fmt.Println("11",tb1.Text())
+
 		srt.AliYunCloud.AccessKeyId = strings.TrimSpace(tb1.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row1.Add(tb1)
@@ -158,7 +167,7 @@ func buildAliYunVoice(p gwu.Panel) {
 	tb2 := gwu.NewPasswBox(srt.AliYunCloud.AccessKeySecret)
 	tb2.Style().SetWidth("300")
 	tb2.AddEHandlerFunc(func(e gwu.Event) {
-		fmt.Println("22",tb2.Text())
+
 		srt.AliYunCloud.AccessKeySecret = strings.TrimSpace(tb2.Text())
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row2.Add(tb2)

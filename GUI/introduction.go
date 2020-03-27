@@ -12,7 +12,7 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 
 
 	p.AddVSpace(20)
-	label = gwu.NewLabel("模式距离")
+	label = gwu.NewLabel("几种模式")
 	label.Style().SetFontSize("18")
 	p.Add(label)
 
@@ -33,11 +33,11 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	p.Add(gwu.NewLabel("关注微信公众号，可实时接收软件版本更新信息，后续也会不断在公众号内分享免费软件和自媒体资料"))
 	p.Add(gwu.NewLabel("如果你有什么想法，或者想让软件增加什么新功能，都可以在公众号内给我发消息。扫描下方二维码，关注微信公众号"))
 	img := gwu.NewImage("公众号", "https://upload-images.jianshu.io/upload_images/971366-618939aedc85de64.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240")
-	img.Style().SetSizePx(300, 300)
+	img.Style().SetSizePx(200, 200)
 	p.Add(img)
 
 	p.AddVSpace(20)
-	link := gwu.NewLink("视频教程", "https://github.com/suifengqjn/videoMaker/blob/master/shipin.md.md")
+	link := gwu.NewLink("视频教程", "https://github.com/suifengqjn/videoMaker/blob/master/shipin.md")
 	p.Add(link)
 
 	p.AddVSpace(20)

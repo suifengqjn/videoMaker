@@ -14,7 +14,7 @@ var (
 	imagePath = "./material"
 	filmPath  = "./material"
 	fontPath  = "./source/font"
-	confPath  = "./source/file/conf.json"
+	confPath  = "./source/files/conf.json"
 )
 
 func AppKeyPath() string {
