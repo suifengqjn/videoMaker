@@ -57,6 +57,14 @@ func (a *App) doEditVideo(videos []string, dir string) {
 
 func (a *App) doCompositeVideo(dir string) {
 
+	//单独提取字幕
+	if a.ExtractSubtitles.Switch {
+		videoPath := getVideoPath(dir)
+		bjPath := ffmpeg.ExtractBgm(a.FCmd, videoPath)
+		a.createSrtWithAudio(bjPath)
+	}
+
+
 	//预处理
 	//f = a.prepareEdit(f)
 
