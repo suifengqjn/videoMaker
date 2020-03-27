@@ -29,3 +29,11 @@ func (a *App)GetSrtConf() *common.SrtConfig  {
 	}
 	return a.SrtConfig
 }
+
+func (a *App)ClearRemoteCache()  {
+
+	if a.AliYunOss.Expiration > 0 && a.AliYunOss.Check() == nil {
+		a.AliYunOss.RemoveOldObject(a.AliYunOss.Expiration)
+	}
+
+}

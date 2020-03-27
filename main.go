@@ -22,6 +22,9 @@ func main()  {
 		App.Account = acc
 	}
 
+	//清除aliyun oss 文件
+	go App.ClearRemoteCache()
+
 	flag.Parse()
 	GUI.StartServer(*appName, *addr, *autoOpen)
 
