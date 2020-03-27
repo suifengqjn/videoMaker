@@ -869,6 +869,14 @@ func buildBottomBtn(p gwu.Panel) {
 			e.MarkDirty(titleLabel)
 			return
 		}
+
+		if checkParam() == false {
+			titleLabel.SetText("请先在参数页面填写参数")
+			titleLabel.Style().SetColor("red")
+			e.MarkDirty(titleLabel)
+			return
+		}
+
 		go app.Engine.DoFactory()
 
 	}, gwu.ETypeClick)
@@ -876,4 +884,15 @@ func buildBottomBtn(p gwu.Panel) {
 	row.Add(startBtn)
 	p.Add(row)
 
+}
+
+func checkParam() bool  {
+	if app.Engine.AliYunOss.Endpoint == "" || app.Engine.AliYunOss.BucketName == "" || app.Engine.AliYunOss.BucketDomain == ""  {
+		return false
+	}
+
+	if app.Engine.AliYunCloud.AccessKeyId == "" || app.Engine.AliYunCloud.AccessKeySecret == "" || app.Engine.AliYunCloud.AppKey == ""  {
+		return false
+	}
+	return true
 }
