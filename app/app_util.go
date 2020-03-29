@@ -11,7 +11,7 @@ import (
 )
 
 func (a *App)getVideoDirs() []string  {
-	_,dirs, err := file.GetAllFilesAndDirs(a.AppDir + "/video")
+	_,dirs, err := file.GetCurrentFilesAndDirs(a.AppDir + "/video")
 	if err != nil {
 		return nil
 	}
