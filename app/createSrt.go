@@ -38,6 +38,7 @@ func (a *App) createSrtWithAudio(audioPath string) {
 	remoteUrl, err := a.AliYunOss.UploadObject(audioPath, filepath.Base(audioPath))
 	if err != nil {
 		mylog.LogDebug("文件上传失败", err)
+		return
 	}
 
 	// 3.阿里云录音文件识别
