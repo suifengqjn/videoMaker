@@ -11,7 +11,7 @@
 
 [模式4: 仅单视频 生成原创视频](https://www.bilibili.com/video/BV1q741197jT/)
 
-[软件激活及参数获取](https://www.bilibili.com/video/BV1p741197U5/)
+[软件激活及参数获取](https://www.bilibili.com/video/BV1Ea4y1t7r5/)
 
 
 ## 软件打开方式

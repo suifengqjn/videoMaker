@@ -10,7 +10,7 @@ import (
 
 var GRAY = "#808080"
 var titleLabel gwu.Label
-var defaultShowString = "原创参数配置, 需要剪辑的视频放在video目录下,首次使用一定要看教程,1.0版只支持300汉字以内"
+var defaultShowString = "原创参数配置, 需要剪辑的视频放在video目录下,首次使用一定要看教程"
 
 func buildMainShowUI(event gwu.Event) gwu.Comp {
 	p := gwu.NewVerticalPanel()

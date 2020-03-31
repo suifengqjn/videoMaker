@@ -65,7 +65,7 @@ func (a *App) doCompositeVideo(dir string) {
 		// 移动到当前目录，生成字幕后删除
 		newPath := dir + "/" + common.GetRandomString(6) + ".mp3"
 		file.MoveFile(bjPath, newPath)
-		a.createSrtWithAudio(newPath)
+		a.createSrtWithAudio(newPath, "txt")
 		os.Remove(newPath)
 	}
 

@@ -55,7 +55,7 @@ func (a *App)TTSVoiceMerge(content, dir string,param *cloud.TTSParam) (string, e
 	} else {
 
 		for _, s := range arr {
-			output := dir + "/" + cm.GetRandomString(6) + ".mp3"
+			output := ffmpeg.MakeRandExportPath("mp3")
 			path, err := a.TTSVoice(s, output, param)
 			if err != nil {
 				return "", err
@@ -64,7 +64,8 @@ func (a *App)TTSVoiceMerge(content, dir string,param *cloud.TTSParam) (string, e
 		}
 
 		//合并音频片段
-		output, err := ffmpeg.MergeBgms(a.FCmd, spanVoices)
+		output := dir + "/" + cm.GetRandomString(6) + ".mp3"
+		output, err := ffmpeg.MergeBgms(a.FCmd, spanVoices,output)
 		if err != nil {
 			return "", err
 		}
@@ -151,13 +152,27 @@ func (a *App)SpitCount(content string) []string  {
 
 // 中文 261 个字
 // 英文300 个字符
+// //"<speak>请闭上眼睛休息一下<break time=\"500ms\"/>好了，请睁开眼睛。<break time=\"600ms\"/></speak>"
 func (a *App)TTSVoice(content, output string,param *cloud.TTSParam)(string, error)  {
-	path, err := a.AliYunCloud.TTSToVoice(content, output, param)
+
+	newContent := a.formatSSML(content)
+	path, err := a.AliYunCloud.TTSToVoicePOST(newContent, output, param)
 	if err != nil || len(path) == 0 {
 		fmt.Println("文本转语音失败")
 	}
 
 	return path, err
+}
+
+// 只有中文支持
+func (a *App)formatSSML(content string) string  {
+	arr := strings.Split(content,`,`)
+	newContent := `<speak>`
+	for _, s := range arr {
+		newContent = newContent + s + `<break time="200ms"/>`
+	}
+	newContent = newContent + `</speak>`
+	return newContent
 }
 
 func (a *App)LongTTSVoice(content, output string,param *cloud.TTSParam)(string, error)  {

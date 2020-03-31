@@ -141,10 +141,12 @@ func getSrtContent(f string) string  {
 		//"<speak>请闭上眼睛休息一下<break time=\"500ms\"/>好了，请睁开眼睛。</speak>"
 		for _, s := range arr {
 			if common.IsChinese(s) {
-				contents = append(contents, fmt.Sprintf(`%v<break time="500ms"/>`,s))
+				//contents = append(contents, fmt.Sprintf(`%v<break time="500ms"/>`,s))
+				contents = append(contents, s)
 			}
 		}
-		return `<speak>` + strings.Join(contents,``) + `</speak>`
+		return strings.Join(contents,`,`)
+		//return `<speak>` + strings.Join(contents,`,`) + `</speak>`
 
 	} else if strings.HasSuffix(f, "txt") {
 
@@ -165,11 +167,13 @@ func getSrtContent(f string) string  {
 
 		var res []string
 		for _, s := range result {
-			if len(strings.TrimSpace(s)) > 0 {
-				res = append(res, fmt.Sprintf(`%v<break time="500ms"/>`,s))
+			if len(strings.TrimSpace(s)) > 0 && common.IsChinese(s) {
+				//res = append(res, fmt.Sprintf(`%v<break time="500ms"/>`,s))
+				res = append(res, s)
 			}
 		}
-		return `<speak>` + strings.Join(res,``) + `</speak>`
+		//return `<speak>` + strings.Join(res,``) + `</speak>`
+		return strings.Join(res,`,`)
 	}
 	return ""
 }

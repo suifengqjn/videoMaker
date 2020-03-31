@@ -8,7 +8,7 @@ import (
 )
 
 //生成字幕文件
-func (a *App) createSrtWithVideo(videoPath string) {
+func (a *App) createSrtWithVideo(videoPath string, suf string) {
 
 	if !ffmpeg.IsVideo(videoPath) {
 		return
@@ -27,11 +27,11 @@ func (a *App) createSrtWithVideo(videoPath string) {
 	AudioResult := a.AliYunCloud.AliYunAudioRecognition(remoteUrl, a.IntelligentBlock)
 
 	// 4.生成字幕文件
-	a.AliYunCloud.AliyunAudioResultMakeSubtitleFile(videoPath, AudioResult)
+	a.AliYunCloud.AliyunAudioResultMakeSubtitleFile(videoPath, AudioResult, suf)
 
 }
 
-func (a *App) createSrtWithAudio(audioPath string) {
+func (a *App) createSrtWithAudio(audioPath string, suf string) {
 
 	fmt.Println("进行字幕生成...")
 	// 2. 上传到oss
@@ -45,14 +45,14 @@ func (a *App) createSrtWithAudio(audioPath string) {
 	AudioResult := a.AliYunCloud.AliYunAudioRecognition(remoteUrl, a.IntelligentBlock)
 
 	// 4.生成字幕文件
-	a.AliYunCloud.AliyunAudioResultMakeSubtitleFile(audioPath, AudioResult)
+	a.AliYunCloud.AliyunAudioResultMakeSubtitleFile(audioPath, AudioResult, suf)
 
 }
 
-func (a *App)createSrtWithUrl(videoPath,url string)  {
+func (a *App)createSrtWithUrl(videoPath,url string, suf string)  {
 	// 3.阿里云录音文件识别
 	AudioResult := a.AliYunCloud.AliYunAudioRecognition(url, a.IntelligentBlock)
 
 	// 4.生成字幕文件
-	a.AliYunCloud.AliyunAudioResultMakeSubtitleFile(videoPath, AudioResult)
+	a.AliYunCloud.AliyunAudioResultMakeSubtitleFile(videoPath, AudioResult, suf)
 }
