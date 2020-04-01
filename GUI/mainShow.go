@@ -354,9 +354,22 @@ func buildComposite(p gwu.Panel) {
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row.Add(PitchRate)
 
-	row.AddHSpace(20)
-	link0 := gwu.NewLink("播音人","https://github.com/suifengqjn/videoMaker/blob/master/voicer.md")
-	row.Add(link0)
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("停顿:"))
+	BreakTimeTb = gwu.NewTextBox("")
+	BreakTimeTb.SetMaxLength(4)
+	BreakTimeTb.Style().SetWidthPx(50)
+	BreakTimeTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	BreakTimeTb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Composite.BreakTime = common.IntValue(BreakTimeTb.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(BreakTimeTb)
+
+	row.AddHSpace(10)
+	breakDesc := gwu.NewLabel("两句话之间的时间间隔,单位毫秒")
+	breakDesc.Style().SetColor(GRAY)
+	row.Add(breakDesc)
+
 
 	p.Add(row)
 
@@ -366,6 +379,10 @@ func buildComposite(p gwu.Panel) {
 	desc := gwu.NewLabel("音量,范围是0~100，默认50. 语速和语调范围是-500~500，默认是0")
 	desc.Style().SetColor(GRAY)
 	row2.Add(desc)
+
+	row2.AddHSpace(30)
+	link0 := gwu.NewLink("播音人","https://github.com/suifengqjn/videoMaker/blob/master/voicer.md")
+	row2.Add(link0)
 
 	row2.AddHSpace(30)
 	link := gwu.NewLink("颜色值选取","http://cha.buyiju.com/tool/color.html")

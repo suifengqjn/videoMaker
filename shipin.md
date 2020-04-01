@@ -13,6 +13,8 @@
 
 [软件激活及参数获取](https://www.bilibili.com/video/BV1Ea4y1t7r5/)
 
+[案例1：三分钟制作一个原创视频解说](https://www.bilibili.com/video/BV1bV411f7gV/)
+
 
 ## 软件打开方式
 

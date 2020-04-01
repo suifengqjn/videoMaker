@@ -26,7 +26,9 @@
 此模式适合视频搬运
 
 ## 软件下载
-链接:https://pan.baidu.com/s/1Nb9v0gGLpcEGYC1V-o8KYQ  密码:1tq2
+
+链接:https://pan.baidu.com/s/1aXOGEPRGaKdk2FWNlp2F-Q  密码:gck0
+
 
 ## 功能介绍
 

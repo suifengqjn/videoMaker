@@ -169,7 +169,7 @@ func (a *App)formatSSML(content string) string  {
 	arr := strings.Split(content,`,`)
 	newContent := `<speak>`
 	for _, s := range arr {
-		newContent = newContent + s + `<break time="200ms"/>`
+		newContent = newContent + s + fmt.Sprintf(`<break time="%vms"/>`, a.Composite.BreakTime)
 	}
 	newContent = newContent + `</speak>`
 	return newContent
