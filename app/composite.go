@@ -88,7 +88,7 @@ func (a *App) compositeStyle1(dir string) string {
 		if len(audioPath) == 0 {
 			return ""
 		}
-		a.createSrtWithAudio(audioPath)
+		a.createSrtWithAudio(audioPath, "srt")
 	}
 
 	//只有一个视频
@@ -112,7 +112,7 @@ func (a *App) compositeStyle2(dir string) string {
 		if len(audioPath) == 0 {
 			return ""
 		}
-		a.createSrtWithAudio(audioPath)
+		a.createSrtWithAudio(audioPath, "srt")
 	} else {
 		audioPath = getVoicePath(dir)
 	}
@@ -139,8 +139,9 @@ func (a *App) compositeStyle2(dir string) string {
 	}
 
 	//如果视频的长度大于音频 ,视频后面部分剪掉
+	// 比如 视频10s  配音6秒，则视频留 6+2 = 8s
 	if videoInfo.Duration > info.Duration {
-		dura := videoInfo.Duration - info.Duration - 2
+		dura := videoInfo.Duration - info.Duration + 1
 		output = videoInfo.CutBack(a.FCmd, output, dura)
 	}
 	//3.
@@ -162,8 +163,7 @@ func (a *App) compositeStyle3(dir string) string {
 		if len(audioPath) == 0 {
 			return ""
 		}
-
-		a.createSrtWithAudio(audioPath)
+		a.createSrtWithAudio(audioPath, "srt")
 	}
 
 	info, err := ffmpeg.GetVideoInfo(a.FCmd, getVoicePath(dir))
@@ -174,7 +174,7 @@ func (a *App) compositeStyle3(dir string) string {
 	//图片合成视频
 	images := getImages(dir)
 	common.Shuffle(images)
-	videoPath := ffmpeg.CreateVideosByImages(a.FCmd, images, 2, 4, info.Duration)
+	videoPath := ffmpeg.CreateVideosByImages(a.FCmd, images, 2, 4, info.Duration + 1)
 
 	//3. 合成
 	return a.compositeVideo(videoPath, dir)
@@ -195,7 +195,7 @@ func (a *App) AddSubTitle(videoPath, dir string) string {
 
 		info, err = ffmpeg.GetVideoInfo(a.FCmd, videoPath)
 		if err != nil {
-			fmt.Println("字母覆盖失败")
+			fmt.Println("字幕覆盖失败")
 		}
 	}
 

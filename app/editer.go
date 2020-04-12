@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"math/rand"
+	"myTool/common"
 	"myTool/ffmpeg"
 	"myTool/file"
 	"os"
@@ -61,7 +62,11 @@ func (a *App) doCompositeVideo(dir string) {
 	if a.ExtractSubtitles.Switch {
 		videoPath := getVideoPath(dir)
 		bjPath := ffmpeg.ExtractBgm(a.FCmd, videoPath)
-		a.createSrtWithAudio(bjPath)
+		// 移动到当前目录，生成字幕后删除
+		newPath := dir + "/" + common.GetRandomString(6) + ".mp3"
+		file.MoveFile(bjPath, newPath)
+		a.createSrtWithAudio(newPath, "txt")
+		os.Remove(newPath)
 	}
 
 

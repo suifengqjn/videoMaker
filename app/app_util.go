@@ -11,7 +11,7 @@ import (
 )
 
 func (a *App)getVideoDirs() []string  {
-	_,dirs, err := file.GetAllFilesAndDirs(a.AppDir + "/video")
+	_,dirs, err := file.GetCurrentFilesAndDirs(a.AppDir + "/video")
 	if err != nil {
 		return nil
 	}
@@ -126,7 +126,7 @@ func getVideoPath(dir string) string  {
 
 // 获取字幕文件内容
 
-var spitRune = []rune{'，','。','？','！','\n',',','.'}
+var spitRune = []rune{'，','。','？','！','!','\n',',','.'}
 func getSrtContent(f string) string  {
 
 	//字幕文件
@@ -138,13 +138,15 @@ func getSrtContent(f string) string  {
 
 		arr := strings.Split(string(buf), "\n")
 		var contents []string
-
+		//"<speak>请闭上眼睛休息一下<break time=\"500ms\"/>好了，请睁开眼睛。</speak>"
 		for _, s := range arr {
 			if common.IsChinese(s) {
+				//contents = append(contents, fmt.Sprintf(`%v<break time="500ms"/>`,s))
 				contents = append(contents, s)
 			}
 		}
-		return strings.Join(contents,",")
+		return strings.Join(contents,`,`)
+		//return `<speak>` + strings.Join(contents,`,`) + `</speak>`
 
 	} else if strings.HasSuffix(f, "txt") {
 
@@ -165,11 +167,13 @@ func getSrtContent(f string) string  {
 
 		var res []string
 		for _, s := range result {
-			if len(strings.TrimSpace(s)) > 0 {
+			if len(strings.TrimSpace(s)) > 0 && common.IsChinese(s) {
+				//res = append(res, fmt.Sprintf(`%v<break time="500ms"/>`,s))
 				res = append(res, s)
 			}
 		}
-		return strings.Join(res,",")
+		//return `<speak>` + strings.Join(res,``) + `</speak>`
+		return strings.Join(res,`,`)
 	}
 	return ""
 }

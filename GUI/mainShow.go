@@ -10,7 +10,7 @@ import (
 
 var GRAY = "#808080"
 var titleLabel gwu.Label
-var defaultShowString = "原创参数配置, 需要剪辑的视频放在video目录下,首次使用一定要看教程,1.0版只支持300汉字以内"
+var defaultShowString = "原创参数配置, 需要剪辑的视频放在video目录下,首次使用一定要看教程"
 
 func buildMainShowUI(event gwu.Event) gwu.Comp {
 	p := gwu.NewVerticalPanel()
@@ -354,9 +354,22 @@ func buildComposite(p gwu.Panel) {
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
 	row.Add(PitchRate)
 
-	row.AddHSpace(20)
-	link0 := gwu.NewLink("播音人","https://github.com/suifengqjn/videoMaker/blob/master/voicer.md")
-	row.Add(link0)
+	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("停顿:"))
+	BreakTimeTb = gwu.NewTextBox("")
+	BreakTimeTb.SetMaxLength(4)
+	BreakTimeTb.Style().SetWidthPx(50)
+	BreakTimeTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	BreakTimeTb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.Composite.BreakTime = common.IntValue(BreakTimeTb.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row.Add(BreakTimeTb)
+
+	row.AddHSpace(10)
+	breakDesc := gwu.NewLabel("两句话之间的时间间隔,单位毫秒")
+	breakDesc.Style().SetColor(GRAY)
+	row.Add(breakDesc)
+
 
 	p.Add(row)
 
@@ -366,6 +379,10 @@ func buildComposite(p gwu.Panel) {
 	desc := gwu.NewLabel("音量,范围是0~100，默认50. 语速和语调范围是-500~500，默认是0")
 	desc.Style().SetColor(GRAY)
 	row2.Add(desc)
+
+	row2.AddHSpace(30)
+	link0 := gwu.NewLink("播音人","https://github.com/suifengqjn/videoMaker/blob/master/voicer.md")
+	row2.Add(link0)
 
 	row2.AddHSpace(30)
 	link := gwu.NewLink("颜色值选取","http://cha.buyiju.com/tool/color.html")
@@ -869,6 +886,14 @@ func buildBottomBtn(p gwu.Panel) {
 			e.MarkDirty(titleLabel)
 			return
 		}
+
+		if checkParam() == false {
+			titleLabel.SetText("请先在参数页面填写参数")
+			titleLabel.Style().SetColor("red")
+			e.MarkDirty(titleLabel)
+			return
+		}
+
 		go app.Engine.DoFactory()
 
 	}, gwu.ETypeClick)
@@ -876,4 +901,15 @@ func buildBottomBtn(p gwu.Panel) {
 	row.Add(startBtn)
 	p.Add(row)
 
+}
+
+func checkParam() bool  {
+	if app.Engine.AliYunOss.Endpoint == "" || app.Engine.AliYunOss.BucketName == "" || app.Engine.AliYunOss.BucketDomain == ""  {
+		return false
+	}
+
+	if app.Engine.AliYunCloud.AccessKeyId == "" || app.Engine.AliYunCloud.AccessKeySecret == "" || app.Engine.AliYunCloud.AppKey == ""  {
+		return false
+	}
+	return true
 }

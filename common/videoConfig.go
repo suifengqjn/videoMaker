@@ -31,6 +31,7 @@ type Composite struct {
 	Volume int // 音量
 	SpeechRate int //语速
 	PitchRate int // 语调
+	BreakTime int // 停顿
 }
 
 

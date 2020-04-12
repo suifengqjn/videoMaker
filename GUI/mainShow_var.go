@@ -54,6 +54,7 @@ var (
 	VolumeTB  gwu.TextBox //音量
 	SpeexhRate gwu.TextBox // 语速
 	PitchRate gwu.TextBox //语调
+	BreakTimeTb gwu.TextBox //间隔时间
 )
 
 

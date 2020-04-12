@@ -15,6 +15,8 @@ var (
 	filmPath  = "./material"
 	fontPath  = "./source/font"
 	confPath  = "./source/files/conf.json"
+
+	SpitCount = 200 //长文本分段个数
 )
 
 func AppKeyPath() string {

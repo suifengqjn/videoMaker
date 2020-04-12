@@ -25,6 +25,7 @@ type SrtConfig struct {
 	AliYunOss *oss.AliYunOss //oss
 	AliYunCloud *cloud.AliYunCloud  //语音识别引擎
 	IntelligentBlock bool //智能分段处理
+	UseLongVoice bool // 是否使用长文本合成语音
 	TempDir string //临时文件目录
 	AppDir string //应用根目录
 	OutPutDir string //输出目录
