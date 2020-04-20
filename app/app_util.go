@@ -71,7 +71,7 @@ func (a *App)ClearTemp() {
 
 
 // 获取字幕文件 从文件夹中找出 txt 或 srt
-func getTextOrSrtPath(dir string) string  {
+func getTextPath(dir string) string  {
 
 	files, _ := file.GetCurrentFiles(dir)
 	for _, f := range files {
@@ -80,11 +80,11 @@ func getTextOrSrtPath(dir string) string  {
 		}
 	}
 
-	for _, f := range files {
-		if strings.HasSuffix(f,".srt") {
-			return f
-		}
-	}
+	//for _, f := range files {
+	//	if strings.HasSuffix(f,".srt") {
+	//		return f
+	//	}
+	//}
 
 	return ""
 
@@ -181,9 +181,48 @@ func getSrtContent(f string) string  {
 
 
 func (a *App)BgmDir() string  {
-	return a.AppDir + "/bgm"
+	return "./bgm"
 }
 
 func (a *App)FontPath() string {
 	return "./source/simsun.ttc"
+}
+
+//字幕校对
+func (a *App)SrtProofread(txt, srt, dir string) string  {
+
+	old := strings.Split(getSrtContent(txt),",")
+	new := strings.Split(getSrtContent(srt),",")
+	txtLines := []rune(strings.Join(old,""))
+	srtLines := []rune(strings.Join(new,""))
+
+	cursor := 0
+	if len(txtLines) == len(srtLines) {
+
+		buf, err := ioutil.ReadFile(srt)
+		if err != nil {
+			return srt
+		}
+		content := string(buf)
+		arr := strings.Split(content, "\n")
+		for _, s := range arr {
+			if common.IsChinese(s) {
+				line := []rune(s)
+				lineStr := ""
+				for index := range line {
+					line[index] = txtLines[cursor]
+					cursor++
+				}
+				lineStr = string(line)
+				content = strings.Replace(content, s, lineStr, 1)
+
+			}
+		}
+
+		res := dir +"/"+ common.GetRandomString(6) + ".srt"
+		common.CoverWriteToFile(res, []byte(content))
+		srt = res
+	}
+
+	return srt
 }

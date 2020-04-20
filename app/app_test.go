@@ -257,3 +257,14 @@ func TestApp_SpitCount(t *testing.T) {
 	}
 
 }
+
+func TestGetSrtContent(t *testing.T)  {
+
+	p1 := "/Users/qianjianeng/go/src/myProject/videoMaker/video/多图/抖音.txt"
+	p2 := "/Users/qianjianeng/go/src/myProject/videoMaker/video/多图/11.srt"
+	dir := "/Users/qianjianeng/go/src/myProject/videoMaker/video/多图"
+	app := App{}
+	app.SrtProofread(p1, p2, dir)
+
+
+}

@@ -19,7 +19,5 @@ bgm
 .idea
 *.zip
 log
-source/tempVideos
-source/font
-source/files
+source
 测试素材

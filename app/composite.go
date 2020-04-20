@@ -218,6 +218,9 @@ func (a *App) AddSubTitle(videoPath, dir string) string {
 	bjColor := a.Subtitles.BjColor
 	bjColorAlpha := a.Subtitles.BjAlpha
 
+	//字幕校对
+	srt = a.SrtProofread(getTextPath(dir), srt, dir)
+
 	videoPath = info.AddSubTitle(a.FCmd,
 		srt,
 		fontColor,

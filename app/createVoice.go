@@ -17,7 +17,7 @@ import (
 
 func (a *App) createVoice(dir string) (string, error) {
 	// 获取文本文件
-	textPath := getTextOrSrtPath(dir)
+	textPath := getTextPath(dir)
 
 	// 获取文本内容
 	content := getSrtContent(textPath)
