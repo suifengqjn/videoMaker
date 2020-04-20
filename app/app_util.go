@@ -59,7 +59,7 @@ func getImages(dir string)[]string  {
 
 
 func (a *App)ClearTemp() {
-	file.RemoveAllFiles(a.TempDir)
+	file.RemoveAllFiles(a.SrtConfig.TempDir)
 
 	files,_ := file.GetAllFiles(a.AppDir)
 	for _, f := range files {
