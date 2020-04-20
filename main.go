@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"myProject/videoMaker/GUI"
 	"myProject/videoMaker/account"
 	"myProject/videoMaker/app"
@@ -24,7 +25,7 @@ func main()  {
 
 	//清除aliyun oss 文件
 	go App.ClearRemoteCache()
-
+	fmt.Println("--")
 	flag.Parse()
 	GUI.StartServer(*appName, *addr, *autoOpen)
 
