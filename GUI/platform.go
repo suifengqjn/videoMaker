@@ -189,9 +189,53 @@ func buildAliYunVoice(p gwu.Panel) {
 
 }
 
+
+
+func buildBaiduFanYi(p gwu.Panel) {
+
+	srt := app.Engine.GetSrtConf()
+
+	p.AddVSpace(20)
+	content := gwu.NewLabel("百度翻译")
+	content.Style().SetFontSize("20")
+	p.Add(content)
+
+	p.AddVSpace(10)
+	row1 := gwu.NewHorizontalPanel()
+	row1.Add(gwu.NewLabel("APP Id:"))
+	row1.AddHSpace(39)
+	tb1 := gwu.NewTextBox(srt.AliYunCloud.AccessKeyId)
+	tb1.Style().SetWidth("300")
+	tb1.AddEHandlerFunc(func(e gwu.Event) {
+
+		srt.AliYunCloud.AccessKeyId = strings.TrimSpace(tb1.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row1.Add(tb1)
+	p.Add(row1)
+
+	p.AddVSpace(5)
+	row2 := gwu.NewHorizontalPanel()
+	row2.Add(gwu.NewLabel("APP Secret:"))
+	row2.AddHSpace(5)
+	tb2 := gwu.NewPasswBox(srt.AliYunCloud.AccessKeySecret)
+	tb2.Style().SetWidth("300")
+	tb2.AddEHandlerFunc(func(e gwu.Event) {
+
+		srt.AliYunCloud.AccessKeySecret = strings.TrimSpace(tb2.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	row2.Add(tb2)
+	p.Add(row2)
+
+
+}
+
+var checkLabel gwu.Label
 func buildSaveBtn(p gwu.Panel)  {
 
 	p.AddVSpace(20)
+
+	line := gwu.NewHorizontalPanel()
+
 	saveBtn := gwu.NewButton("    保存   ")
 	saveBtn.Style().SetFontSize("18")
 	saveBtn.Style().SetColor(gwu.ClrBlue)
@@ -199,5 +243,33 @@ func buildSaveBtn(p gwu.Panel)  {
 	saveBtn.AddEHandlerFunc(func(e gwu.Event) {
 		common.SaveSrtConf()
 	}, gwu.ETypeClick)
-	p.Add(saveBtn)
+
+	line.Add(saveBtn)
+
+	line.AddHSpace(20)
+	checkBtn := gwu.NewButton("    参数检测   ")
+	checkBtn.Style().SetFontSize("18")
+	checkBtn.Style().SetColor(gwu.ClrBlue)
+
+	checkBtn.AddEHandlerFunc(func(e gwu.Event) {
+		path := "./source/files/test.txt"
+		err := app.Engine.CheckAliYun(path)
+		if err == nil {
+			checkLabel.SetText("参数正确")
+		} else {
+			checkLabel.SetText("参数错误, 请查看控制台输出")
+		}
+		e.MarkDirty(checkLabel)
+
+	}, gwu.ETypeClick)
+
+	line.Add(checkBtn)
+
+	line.AddHSpace(20)
+	checkLabel = gwu.NewLabel("")
+	checkLabel.Style().SetFontSize("20")
+	line.Add(checkLabel)
+
+
+	p.Add(line)
 }

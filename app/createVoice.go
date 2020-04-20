@@ -8,7 +8,9 @@ import (
 	"myTool/aliyun/cloud"
 	cm "myTool/common"
 	"myTool/ffmpeg"
+	"myTool/file"
 	"net/http"
+	"path/filepath"
 	"strings"
 	"unicode/utf8"
 )
@@ -20,7 +22,7 @@ func (a *App) createVoice(dir string) (string, error) {
 	// 获取文本内容
 	content := getSrtContent(textPath)
 
-	if len(content) == 0{
+	if len(content) == 0 {
 		fmt.Println("文件内容为空, 检查此目录", dir)
 		return "", errors.New("err")
 	}
@@ -193,3 +195,31 @@ func (a *App)LongTTSVoice(content, output string,param *cloud.TTSParam)(string, 
 	return url, nil
 }
 
+func (a *App)CheckAliYun(textPath string) error  {
+
+	// 获取文本内容
+	content := getSrtContent(textPath)
+
+	if len(content) == 0 {
+		fmt.Println("文件内容为空, 检查此文件", textPath)
+		return  errors.New("检测文件内容为空")
+	}
+
+	fmt.Println("进行参数测试...")
+	// 语音输出路径
+	//output := dir + "/" + cm.GetRandomString(6) + ".mp3"
+	param := cloud.TTSParam{
+		Voice:      a.Composite.Voice,
+		Volume:     a.Composite.Volume,
+		SpeechRate: a.Composite.SpeechRate,
+		PitchRate:  a.Composite.PitchRate,
+	}
+
+	res, err := a.TTSVoiceMerge(content, filepath.Dir(textPath), &param)
+	if err != nil || file.PathExist(res) == false {
+		fmt.Println("文本转语音失败！",err)
+		return err
+	}
+	fmt.Println("参数填写正确！！！")
+	return nil
+}
