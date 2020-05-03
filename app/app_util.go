@@ -125,7 +125,6 @@ func getVideoPath(dir string) string  {
 }
 
 // 获取字幕文件内容
-
 var spitRune = []rune{'，','。','？','！','!','\n',',','.'}
 func getSrtContent(f string) string  {
 

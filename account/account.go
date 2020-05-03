@@ -23,7 +23,7 @@ const (
 
 
 func NewAccount(appId, inviteCode string) *Account  {
-	acc := appAccount.NewAppAccount("video_maker", Version,appId, inviteCode, false)
+	acc := appAccount.NewAppAccount("video_maker", Version,appId, inviteCode, "",false)
 	AppAccount = &Account{acc}
 	return AppAccount
 }
