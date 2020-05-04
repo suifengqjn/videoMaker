@@ -25,16 +25,29 @@ var (
 	ClearWaterTbh gwu.TextBox
 )
 // 7. 去水印2
-var (
-	ClearWater2Cb gwu.CheckBox
-	ClearWater2Tbx gwu.TextBox
-	ClearWater2Tby gwu.TextBox
-	ClearWater2Tbw gwu.TextBox
-	ClearWater2Tbh gwu.TextBox
-)
+//var (
+//	ClearWater2Cb gwu.CheckBox
+//	ClearWater2Tbx gwu.TextBox
+//	ClearWater2Tby gwu.TextBox
+//	ClearWater2Tbw gwu.TextBox
+//	ClearWater2Tbh gwu.TextBox
+//)
 
 
 // 提取字幕
+
+var (
+	SrtCb gwu.CheckBox
+)
+
+//合成  4种模式
+var (
+	CompositeCb gwu.CheckBox
+	CompositeLb gwu.ListBox
+
+)
+
+//配音
 /*
 	Voice string    //发音人，默认是xiaoyun
 	Volume int      //音量，范围是0~100，默认50
@@ -42,32 +55,39 @@ var (
 	PitchRate int   //语调，范围是-500~500，默认是0
 */
 var (
-	SrtCb gwu.CheckBox
-
-)
-
-//合成  4种模式
-var (
-	CompositeCb gwu.CheckBox
-	CompositeLb gwu.ListBox
+	DubCB gwu.CheckBox
 	SpeecherLb gwu.ListBox //播音人
 	VolumeTB  gwu.TextBox //音量
-	SpeexhRate gwu.TextBox // 语速
+	SpeechRate gwu.TextBox // 语速
 	PitchRate gwu.TextBox //语调
 	BreakTimeTb gwu.TextBox //间隔时间
 )
 
+// 字幕背景
+var (
+	CoverBgCb gwu.CheckBox
+	CoverBgMarginVTb gwu.TextBox
+	CoverBjColorTb gwu.TextBox
+	CoverBjAlphaTb gwu.TextBox
+	CoverHTb gwu.TextBox
+)
 
 //字幕属性
 var (
 	SubTitleCb gwu.CheckBox
 	SubTitleFontSizeTb gwu.TextBox
 	SubTitleFontColorTb gwu.TextBox
-	SubTitleMarginVTb gwu.TextBox
-	BjColorTb gwu.TextBox
-	BjAlphaTb gwu.TextBox
-	CoverBjCb gwu.CheckBox
-	CoverHTb gwu.TextBox
+	SubTitleFontBjColorTb gwu.TextBox
+	SubTitleFontBjAlphaTb gwu.TextBox
+)
+
+// plot
+var (
+	AIPlotCb gwu.CheckBox
+	AIPlotRangeStartTb gwu.TextBox
+	AIPlotRangeEndTb gwu.TextBox
+	AIPlotDurationTb gwu.TextBox
+
 )
 
 // 12. 文字水印
@@ -106,7 +126,9 @@ var (
 // 16. 背景音乐
 var (
 	BgmCb gwu.CheckBox
-	BgmLb gwu.ListBox
+	BgmFrontVolumeTb gwu.TextBox // 前景音量
+	BgmBackVolumeTb gwu.TextBox // 背景音量
+	BgmCoverCb gwu.CheckBox //是否覆盖
 )
 
 var (
@@ -116,7 +138,3 @@ var (
 	filmFootCb  gwu.CheckBox
 	filmFootLb gwu.ListBox
 )
-
-func UpdateUI()  {
-
-}

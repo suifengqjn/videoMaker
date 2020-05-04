@@ -1,95 +1,56 @@
 package common
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"myTool/aliyun/cloud"
-	"myTool/aliyun/oss"
-	"myTool/common"
+	cm "myProject/videoCli/common"
+	"myProject/videoCli/makerCli"
 	"myTool/file"
+	"myTool/fmg"
 	"myTool/sys"
 	"os"
 )
 
-var AppConfig *Config
+var AppConfig *cm.MakerConfig
+var cliEngine *makerCli.Engine
 
-type Config struct {
-	*SrtConfig
-	*GUIConfig `json:"-"`
+func NewCliEngine() *makerCli.Engine {
+
+	callback := func(msg string, video string) {
+		fmt.Println(video, msg)
+	}
+	fg := fmg.NewFmg(GetFCmd(0),
+		"",
+		"./source/tempVideos",
+		"source",
+		callback,
+	)
+
+	cliEngine = makerCli.NewMakerEngineCli(fg, NewAppConfig())
+	return cliEngine
 }
 
-type SrtConfig struct {
-	Setting setting
-	FCmd string
-	AliYunOss *oss.AliYunOss //oss
-	AliYunCloud *cloud.AliYunCloud  //语音识别引擎
-	IntelligentBlock bool //智能分段处理
-	UseLongVoice bool // 是否使用长文本合成语音
-	TempDir string //临时文件目录
-	AppDir string //应用根目录
-	OutPutDir string //输出目录
-}
+func NewAppConfig() *cm.MakerConfig {
+	conf := LoadPlatFormParam()
+	if conf == nil {
+		conf = cm.NewPlatformConf()
+	}
 
-type GUIConfig struct {
-	CutFront CutFront
-	CutBack CutBack
-	ClearWater ClearWater
-	ClearWater1 ClearWater
-	ExtractSubtitles ExtractSubtitles
-	Composite Composite
-	Subtitles Subtitles
-	WaterText WaterText
-	RunWaterText RunWaterText
-	WaterImage WaterImage
-	AddBgm AddBgm
-	FilmHead FilmTitle
-	FilmFoot FilmEnd
-}
-
-type setting struct {
-	CurrentEngineId int //目前使用引擎Id
-	MaxConcurrency int //任务最大处理并发数
-	OutputType int //输出文件类型
-	OutputEncode int //输出文件编码
-	SrtFileDir string //Srt文件输出目录
-	SoundTrack int //输出音轨
-}
-
-func NewAppConfig() *Config  {
-	projectDir, err := os.Getwd()
+	cur, err := os.Getwd()
 	if err != nil {
-		fmt.Println("无法识别路径")
 		panic(err)
 	}
-
-	var oss = &oss.AliYunOss{}
-	var clo =&cloud.AliYunCloud{}
-	conf, err := LoadSrtConf()
-	if err == nil {
-		oss = conf.AliYunOss
-		clo = conf.AliYunCloud
-	}
-
-	srt := &SrtConfig{
-		Setting:          setting{},
-		FCmd:             GetFCmd(0),
-		AliYunOss:        oss,
-		AliYunCloud:      clo,
-		IntelligentBlock: true,
-		TempDir:          projectDir + "/source/tempVideos",
-		AppDir:           projectDir,
-		OutPutDir:        file.GetDeskTop() + "/video_maker",
-	}
-	AppConfig = &Config{
-		srt,
-		&GUIConfig{},
+	AppConfig = &cm.MakerConfig{
+		PlatformConf: conf,
+		AppConf:      cm.AppConf{},
+		Setting: cm.Setting{
+			ProjectDir: cur,
+			WorkDir:    "./video",
+			OutPutDir:  file.GetDeskTop(),
+		},
 	}
 	return AppConfig
 
 }
-
-
 
 func GetFCmd(system int) string {
 
@@ -108,25 +69,26 @@ func GetFCmd(system int) string {
 
 }
 
-func LoadSrtConf()(*Config, error)  {
-
-	buf, err := ioutil.ReadFile(confPath)
-	if err != nil {
-		return nil, err
-	}
-	var conf Config
-	err = json.Unmarshal(buf,&conf)
-	if err != nil {
-		return nil,err
-	}
-	return &conf, nil
-}
-
-func SaveSrtConf()  {
-	buf, err := json.Marshal(AppConfig)
-	if err != nil {
-		return
-	}
-	common.CoverWriteToFile(confPath, buf)
-
-}
+//
+//func LoadAppConf() (*cm.MakerConfig, error) {
+//
+//	buf, err := ioutil.ReadFile(confPath)
+//	if err != nil {
+//		return nil, err
+//	}
+//	var conf cm.MakerConfig
+//	err = json.Unmarshal(buf, &conf)
+//	if err != nil {
+//		return nil, err
+//	}
+//	return &conf, nil
+//}
+//
+//func SaveAppConf() {
+//	buf, err := json.Marshal(AppConfig)
+//	if err != nil {
+//		return
+//	}
+//	common.CoverWriteToFile(confPath, buf)
+//
+//}

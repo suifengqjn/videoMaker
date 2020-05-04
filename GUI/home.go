@@ -35,22 +35,22 @@ func plural(i int) string {
 }
 
 
-func buildCollectDemo(event gwu.Event) gwu.Comp {
-	p := gwu.NewPanel()
-
-	p.AddVSpace(20)
-	link := gwu.NewLink("视频采集器", "https://github.com/suifengqjn/videoCollector")
-	p.Add(link)
-	return p
-}
-
-func buildEditorDemo(event gwu.Event) gwu.Comp {
-	p := gwu.NewPanel()
-	p.AddVSpace(20)
-	link := gwu.NewLink("视频剪辑器", "https://github.com/suifengqjn/videoWater")
-	p.Add(link)
-	return p
-}
+//func buildCollectDemo(event gwu.Event) gwu.Comp {
+//	p := gwu.NewPanel()
+//
+//	p.AddVSpace(20)
+//	link := gwu.NewLink("视频采集器", "https://github.com/suifengqjn/videoCollector")
+//	p.Add(link)
+//	return p
+//}
+//
+//func buildEditorDemo(event gwu.Event) gwu.Comp {
+//	p := gwu.NewPanel()
+//	p.AddVSpace(20)
+//	link := gwu.NewLink("视频剪辑器", "https://github.com/suifengqjn/videoWater")
+//	p.Add(link)
+//	return p
+//}
 
 type demo struct {
 	link      gwu.Label
@@ -186,7 +186,7 @@ func buildHome(sess gwu.Session) {
 	l0.Style().SetFontWeight(gwu.FontWeightBold)
 	links.Add(l0)
 	createDemo("激活", buildActiveUI)
-	createDemo("参数", buildPlatform)
+	createDemo("阿里参数", buildPlatform)
 	//=============================================//
 
 
@@ -199,12 +199,12 @@ func buildHome(sess gwu.Session) {
 	//=============================================//
 
 
-	links.AddVSpace(20)
-	l = gwu.NewLabel("其他软件")
-	l.Style().SetFontWeight(gwu.FontWeightBold)
-	links.Add(l)
-	createDemo("视频采集器", buildCollectDemo)
-	createDemo("视频剪辑器", buildEditorDemo)
+	//links.AddVSpace(20)
+	//l = gwu.NewLabel("其他软件")
+	//l.Style().SetFontWeight(gwu.FontWeightBold)
+	//links.Add(l)
+	//createDemo("视频采集器", buildCollectDemo)
+	//createDemo("视频剪辑器", buildEditorDemo)
 
 
 	links.AddVConsumer()
@@ -224,7 +224,7 @@ func buildHome(sess gwu.Session) {
 	l.Style().SetFontStyle(gwu.FontStyleItalic).SetFontSize("95%")
 	footer.Add(l)
 	footer.AddHSpace(10)
-	link := gwu.NewLink("点击进入", "http://freetop.ren")
+	link := gwu.NewLink("点击进入", "https://mediablog.github.io/")
 	link.Style().SetFontStyle(gwu.FontStyleItalic).SetFontSize("95%")
 	footer.Add(link)
 	setNoWrap(footer)

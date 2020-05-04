@@ -2,7 +2,6 @@ package account
 
 import (
 	"io/ioutil"
-	cm "myProject/videoMaker/common"
 	"myTool/appAccount"
 	"myTool/common"
 	"myTool/file"
@@ -80,8 +79,8 @@ func (e *Account)InviteCode()(int, string)  {
 
 
 func LoadAppId() string  {
-	if file.PathExist(cm.AppKeyPath()) {
-		byte, err := ioutil.ReadFile(cm.AppKeyPath())
+	if file.PathExist(AppKeyPath()) {
+		byte, err := ioutil.ReadFile(AppKeyPath())
 		if err != nil || len(byte) < 10 {
 			return ""
 		}
@@ -91,8 +90,11 @@ func LoadAppId() string  {
 }
 
 func SaveAppId(appId string)  {
-	common.CoverWriteToFile(cm.AppKeyPath(), []byte(appId))
+	common.CoverWriteToFile(AppKeyPath(), []byte(appId))
 }
 
 
+func AppKeyPath() string {
+	return "./source/files/app_id.txt"
+}
 

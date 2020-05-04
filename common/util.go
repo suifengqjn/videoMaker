@@ -51,13 +51,15 @@ var (
 		"Abby":"Abby","Andy":"Andy","Emily":"Emily","Eric":"Eric","Harry":"Harry","Luca":"Luca","Luna":"Luna","Olivia":"Olivia","Wendy":"Wendy","William":"William","伊娜":"Yina","宁儿":"Ninger","小云":"Xiaoyun","小刚":"Xiaogang","小北":"Xiaobei","小美":"Xiaomei","思佳":"Sijia","思婧":"Sijing","思彤":"Sitong","思悦":"Siyue","思琪":"Siqi","思诚":"Sicheng","瑞琳":"Ruilin","艾佳":"Aijia","艾夏":"Aixia","艾娜":"Aina","艾婧":"Aijing","艾宝":"Aibao","艾彤":"Aitong","艾悦":"Aiyue","艾琪":"Aiqi","艾美":"Aimei","艾薇":"Aiwei","艾诚":"Aicheng","艾达":"Aida","艾雅":"Aiya","艾雨":"Aiyu","若兮":"Ruoxi",
 	}
 
-	CompleteStyle = []string{"未选择","模式一:单视频+文案","模式二:多视频+文案","模式三:图片+文案","模式四:单视频"}
+	CompleteStyle = []string{"未选择","模式一:单视频","模式二:多视频","模式三:多图","模式四:视频加图片","模式五:单视频混剪","模式六:文字转音频"}
 	CompleteStyleMap = map[string]int{
 		"未选择":0,
-		"模式一:单视频+文案":1,
-		"模式二:多视频+文案":2,
-		"模式三:图片+文案": 3,
-		"模式四:单视频": 4,
+		"模式一:单视频":1,
+		"模式二:多视频":2,
+		"模式三:多图": 3,
+		"模式四:视频加图片": 4,
+		"模式五:单视频混剪": 5,
+		"模式六:文字转音频": 6,
 	}
 )
 
@@ -80,6 +82,15 @@ func IntValue(v string) int {
 			return int(valueF)
 		}
 	}
+	return value
+}
+
+func FloatValue(v string) float64  {
+	value, err := strconv.ParseFloat(v, 10)
+	if err != nil {
+		return 0
+	}
+
 	return value
 }
 

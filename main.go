@@ -2,10 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"myProject/videoMaker/GUI"
 	"myProject/videoMaker/account"
-	"myProject/videoMaker/app"
+	"myProject/videoMaker/common"
 )
 
 var (
@@ -15,17 +14,20 @@ var (
 )
 func main()  {
 
-	App := app.NewApp()
-	App.ClearTemp()
 	appId := account.LoadAppId()
 	if len(appId) > 0 {
-		acc := account.NewAccount(appId,"")
-		App.Account = acc
+		account.NewAccount(appId,"")
 	}
 
+	cli := common.NewCliEngine()
+	eng := common.NewMakerEngine(cli, account.AppAccount)
+
+
 	//清除aliyun oss 文件
-	go App.ClearRemoteCache()
-	fmt.Println("--")
+	go eng.ClearRemoteCache()
+	go eng.ClearTemp()
+
+
 	flag.Parse()
 	GUI.StartServer(*appName, *addr, *autoOpen)
 
