@@ -37,9 +37,6 @@ func buildUI(p gwu.Panel) {
 
 	p.Add(topLine)
 
-	p.AddVSpace(10)
-	buildFourCutFront(p)
-
 	//
 	//p.AddVSpace(10)
 	//buildSevenClearWater2(p)
@@ -63,6 +60,9 @@ func buildUI(p gwu.Panel) {
 	p.AddVSpace(10)
 	buildAIPlot(p)
 	//-------//
+
+	p.AddVSpace(10)
+	buildFourCutFront(p)
 
 	p.AddVSpace(10)
 	buildSevenClearWater(p)

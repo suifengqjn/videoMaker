@@ -2,8 +2,8 @@ package common
 
 import (
 	"fmt"
-	"myTool/ffmpeg"
 	"myTool/file"
+	"myTool/fmg"
 	"myTool/sys"
 	"os"
 	"path/filepath"
@@ -158,7 +158,7 @@ func LoadFilms() (map[string]string, []string) {
 	for _, f := range files {
 		baseName := filepath.Base(f)
 		suf := strings.Split(baseName, ".")[1]
-		if Contains(ffmpeg.VideoSufs(), strings.ToLower(suf)) {
+		if Contains(fmg.VideoSufs(), strings.ToLower(suf)) {
 			res[baseName] = f
 			keys = append(keys, baseName)
 		}

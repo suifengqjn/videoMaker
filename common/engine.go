@@ -66,11 +66,8 @@ func (v *VideoMakerEngine)DoMaker() {
 	}
 
 	isDealing = true
-	if v.MakerCli.ExtractSubtitles.Switch {
-		v.MakerCli.ExtractSubtitle(files)
-	} else {
-		v.MakerCli.DoComposite(files)
-	}
+
+	v.MakerCli.DoComposite(files)
 
 	isDealing = false
 
