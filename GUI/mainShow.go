@@ -270,7 +270,7 @@ func buildSubTitleBg(p gwu.Panel) {
 	CoverBgCb = gwu.NewCheckBox("字幕遮盖")
 	CoverBgCb.Style().SetColor("#FF6633")
 	CoverBgCb.AddEHandlerFunc(func(e gwu.Event) {
-		common.AppConfig.Subtitles.Switch = CoverBgCb.State()
+		common.AppConfig.SubtitleBack.Switch = CoverBgCb.State()
 	}, gwu.ETypeClick, gwu.ETypeStateChange)
 	row.Add(CoverBgCb)
 
@@ -288,14 +288,14 @@ func buildSubTitleBg(p gwu.Panel) {
 
 	row.AddHSpace(10)
 	row.Add(gwu.NewLabel("遮盖条颜色:"))
-	CoverBjColorTb = gwu.NewTextBox("00ff00")
+	CoverBjColorTb = gwu.NewTextBox("60ffc0")
 	CoverBjColorTb.SetMaxLength(7)
 	CoverBjColorTb.Style().SetWidthPx(50)
 	CoverBjColorTb.AddSyncOnETypes(gwu.ETypeKeyUp)
 	CoverBjColorTb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.AppConf.SubtitleBack.BjColor = CoverBjColorTb.Text()
 	}, gwu.ETypeChange, gwu.ETypeKeyUp)
-	common.AppConfig.AppConf.SubtitleBack.BjColor = "00ff00"
+	common.AppConfig.AppConf.SubtitleBack.BjColor = "60ffc0"
 	row.Add(CoverBjColorTb)
 
 	row.AddHSpace(10)

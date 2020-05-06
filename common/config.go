@@ -39,13 +39,17 @@ func NewAppConfig() *cm.MakerConfig {
 	if err != nil {
 		panic(err)
 	}
+	outPut := file.GetDeskTop() + "/videoMakerOut"
+	if file.PathExist(outPut) == false {
+		os.MkdirAll(outPut, os.ModePerm)
+	}
 	AppConfig = &cm.MakerConfig{
 		PlatformConf: conf,
 		AppConf:      cm.AppConf{},
 		Setting: cm.Setting{
 			ProjectDir: cur,
 			WorkDir:    "./video",
-			OutPutDir:  file.GetDeskTop(),
+			OutPutDir:  outPut,
 		},
 	}
 	return AppConfig

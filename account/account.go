@@ -5,6 +5,7 @@ import (
 	"myTool/appAccount"
 	"myTool/common"
 	"myTool/file"
+	"myTool/sys"
 )
 
 var AppAccount = &Account{}
@@ -22,7 +23,11 @@ const (
 
 
 func NewAccount(appId, inviteCode string) *Account  {
-	acc := appAccount.NewAppAccount("video_maker", Version,appId, inviteCode, "",false)
+	deviceId := sys.GetSysInfo().DeviceId
+	if len(deviceId) > 10 {
+		deviceId = deviceId[:10]
+	}
+	acc := appAccount.NewAppAccount("video_maker", Version,appId, inviteCode, deviceId,false)
 	AppAccount = &Account{acc}
 	return AppAccount
 }
