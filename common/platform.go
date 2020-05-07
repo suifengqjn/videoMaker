@@ -13,7 +13,7 @@ import (
 func SavePlatFormParam() {
 
 	buf, err := json.Marshal(MakerEngine.MakerCli.PlatformConf)
-	if err != nil {
+	if err == nil {
 		file.OverWrite(PlatFormParamPath, string(buf))
 	}
 
