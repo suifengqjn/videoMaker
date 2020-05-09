@@ -109,7 +109,7 @@ func LoadFonts() (map[string]string, []string) {
 	if sys.GetSysInfo().PlatForm == sys.MacOS {
 		files, err = file.GetAllFiles(fontPath)
 	} else {
-		files, err = file.GetAllFiles("./source/font/")
+		files, err = file.GetCurrentFiles("./source/font/")
 	}
 	if err != nil {
 		return nil, nil
@@ -120,6 +120,7 @@ func LoadFonts() (map[string]string, []string) {
 		baseName := file.GetFileBaseName(f)
 		suf := file.GetFileSuf(f)
 		if Contains(fontSufs, strings.ToLower(suf)) {
+			f = strings.ReplaceAll(f,`/\`,`/`)
 			res[baseName] = f
 			keys = append(keys, baseName)
 		}

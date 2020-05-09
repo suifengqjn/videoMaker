@@ -10,6 +10,22 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	label.Style().SetColor(gwu.ClrBlue)
 	p.Add(label)
 
+	p.AddVSpace(20)
+	link := gwu.NewLink("视频教程", "https://github.com/suifengqjn/videoMaker/blob/master/shipin.md")
+	p.Add(link)
+
+	p.AddVSpace(20)
+	link = gwu.NewLink("软件地址", "https://github.com/suifengqjn/videoMaker")
+	p.Add(link)
+
+	p.AddVSpace(20)
+	link = gwu.NewLink("密钥购买", "https://pr.kuaifaka.com/item/3ZUpQ")
+	p.Add(link)
+
+	p.AddVSpace(20)
+	link = gwu.NewLink("使用文档", "https://www.yuque.com/fengshi-zm9in/bx4gg5")
+	p.Add(link)
+
 
 	p.AddVSpace(20)
 	label = gwu.NewLabel("几种模式")
@@ -17,10 +33,11 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	p.Add(label)
 
 	arr := []string {
-		"模式1: 单视频 + 文案 生成原创视频",
-		"模式2: 多视频 + 文案 生成原创视频",
-		"模式3: 图片 + 文案生成原创视频",
-		"模式4: 仅单视频 生成原创视频",
+		"模式1: 单视频",
+		"模式2: 多视频",
+		"模式3: 多图",
+		"模式4: 单视频混剪",
+		"模式5: 文字转音频",
 		"后续增加更多模式...",
 	}
 
@@ -36,17 +53,6 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	img.Style().SetSizePx(200, 200)
 	p.Add(img)
 
-	p.AddVSpace(20)
-	link := gwu.NewLink("视频教程", "https://github.com/suifengqjn/videoMaker/blob/master/shipin.md")
-	p.Add(link)
-
-	p.AddVSpace(20)
-	link = gwu.NewLink("软件地址", "https://github.com/suifengqjn/videoMaker")
-	p.Add(link)
-
-	p.AddVSpace(20)
-	link = gwu.NewLink("密钥购买", "https://pr.kuaifaka.com/item/3ZUpQ")
-	p.Add(link)
 
 	//p.AddVSpace(50)
 	//link = gwu.NewLink("常见问题", "https://github.com/suifengqjn/videoWater/blob/master/QREADME.md")

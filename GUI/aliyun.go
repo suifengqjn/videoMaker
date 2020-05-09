@@ -264,6 +264,5 @@ func buildSaveBtn(p gwu.Panel)  {
 	checkLabel = gwu.NewLabel("")
 	checkLabel.Style().SetFontSize("20")
 	line.Add(checkLabel)
-
 	p.Add(line)
 }
