@@ -28,7 +28,7 @@ func buildUI(p gwu.Panel) {
 	topLine.Add(titleLabel)
 
 	topLine.AddHSpace(30)
-	link0 := gwu.NewLink("播音人", "https://github.com/suifengqjn/videoMaker/blob/master/voicer.md")
+	link0 := gwu.NewLink("配音员", "https://github.com/suifengqjn/videoMaker/blob/master/voicer.md")
 	topLine.Add(link0)
 
 	topLine.AddHSpace(30)
