@@ -23,10 +23,7 @@ const (
 
 
 func NewAccount(appId, inviteCode string) *Account  {
-	deviceId := sys.GetSysInfo().DeviceId
-	if len(deviceId) > 10 {
-		deviceId = deviceId[:10]
-	}
+	deviceId := sys.GetShortDeviceId()
 	acc := appAccount.NewAppAccount("video_maker", Version,appId, inviteCode, deviceId,false)
 	AppAccount = &Account{acc}
 	return AppAccount

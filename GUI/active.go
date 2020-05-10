@@ -42,18 +42,18 @@ func buildActive(p gwu.Panel)  {
 }
 
 func buildUnActive(p gwu.Panel)  {
-	link := gwu.NewLink("密钥购买", "https://pr.kuaifaka.com/item/3ZUpQ")
+	link := gwu.NewLink("卡号购买", "https://pr.kuaifaka.com/item/3ZUpQ")
 	link.Style().SetColor("red")
 	p.Add(link)
 
 	p.AddVSpace(20)
-	p.Add(gwu.NewLabel("填写密钥进行激活, 邀请码没有可以不填"))
+	p.Add(gwu.NewLabel("填写卡号进行激活, 邀请码没有可以不填"))
 
 	p.AddVSpace(20)
 
 	row := gwu.NewHorizontalPanel()
 
-	row.Add(gwu.NewLabel("密钥:"))
+	row.Add(gwu.NewLabel("卡号:"))
 	row.AddHSpace(18)
 
 	tb := gwu.NewTextBox("")
@@ -105,7 +105,7 @@ func buildUnActive(p gwu.Panel)  {
 			acc := account.NewAccount(appId,inviteCode)
 
 			if acc == nil {
-				user.SetText("激活失败,请检查网络或者密钥")
+				user.SetText("激活失败,请检查网络或者卡号")
 				e.MarkDirty(user)
 				return
 			}
@@ -177,12 +177,12 @@ func buildInviteUI(p gwu.Panel)  {
 	p.Add(label)
 	p.AddVSpace(15)
 	content := []string{
-		"1. 购买密钥后可以获得邀请码",
+		"1. 购买卡号后可以获得邀请码",
 		"2. 账户第一次激活使用邀请码才有效",
 		"3. 使用邀请码激活，如果是月卡，双方各奖励10天，如果是年卡，双方各奖励30天",
 		"4. 举例：张三买了一张月卡，使用了你的邀请码激活，则你的账户有效期增加10天，张三的有效期也增加10天",
 		"5. 如果账户过期，邀请码也失效",
-		"6. 公众号内分享的密钥没有邀请码",
+		"6. 公众号内分享的卡号没有邀请码",
 	}
 	for _, s := range content {
 		p.Add(gwu.NewLabel(s))

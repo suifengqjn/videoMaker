@@ -19,7 +19,7 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	p.Add(link)
 
 	p.AddVSpace(20)
-	link = gwu.NewLink("密钥购买", "https://pr.kuaifaka.com/item/3ZUpQ")
+	link = gwu.NewLink("卡号购买", "https://pr.kuaifaka.com/item/3ZUpQ")
 	p.Add(link)
 
 	p.AddVSpace(20)
