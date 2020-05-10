@@ -342,6 +342,18 @@ func buildSubTitle(p gwu.Panel) {
 	row.Add(SubTitleCb)
 
 	row.AddHSpace(10)
+	row.Add(gwu.NewLabel("底部距离:"))
+	SubTitleFontVTb = gwu.NewTextBox("10")
+	SubTitleFontVTb.SetMaxLength(3)
+	SubTitleFontVTb.Style().SetWidthPx(50)
+	SubTitleFontVTb.AddSyncOnETypes(gwu.ETypeKeyUp)
+	SubTitleFontVTb.AddEHandlerFunc(func(e gwu.Event) {
+		common.AppConfig.AppConf.Subtitles.MarginV = common.IntValue(SubTitleFontVTb.Text())
+	}, gwu.ETypeChange, gwu.ETypeKeyUp)
+	common.AppConfig.AppConf.Subtitles.MarginV = 10
+	row.Add(SubTitleFontVTb)
+
+	row.AddHSpace(10)
 	row.Add(gwu.NewLabel("字体大小:"))
 	SubTitleFontSizeTb = gwu.NewTextBox("16")
 	SubTitleFontSizeTb.SetMaxLength(3)

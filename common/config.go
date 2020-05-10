@@ -19,7 +19,7 @@ func NewCliEngine() *makerCli.Engine {
 		fmt.Println(video, msg)
 	}
 	fg := fmg.NewFmg(GetFCmd(0),
-		"",
+		"./source/simsun.ttc",
 		"./source/tempVideos",
 		"source",
 		callback,

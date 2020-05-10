@@ -75,6 +75,7 @@ var (
 //字幕属性
 var (
 	SubTitleCb gwu.CheckBox
+	SubTitleFontVTb gwu.TextBox
 	SubTitleFontSizeTb gwu.TextBox
 	SubTitleFontColorTb gwu.TextBox
 	SubTitleFontBjColorTb gwu.TextBox
