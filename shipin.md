@@ -2,6 +2,10 @@
 # 视频教程
 
 
+## 使用前准备
+
+[软件激活及阿里云参数获取](https://www.bilibili.com/video/BV1Ea4y1t7r5/)
+
 ## 1.3版视频教程
 [模式1: 单视频 + 文案 生成原创视频](https://www.bilibili.com/video/BV1fi4y1x7fA/)
 
@@ -23,8 +27,6 @@
 [模式3: 图片 + 文案生成原创视频](https://www.bilibili.com/video/BV1y7411X7S3/)
 
 [模式4: 仅单视频 生成原创视频](https://www.bilibili.com/video/BV1q741197jT/)
-
-[软件激活及参数获取](https://www.bilibili.com/video/BV1Ea4y1t7r5/)
 
 [案例1：三分钟制作一个原创视频解说](https://www.bilibili.com/video/BV1bV411f7gV/)
 
