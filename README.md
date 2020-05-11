@@ -44,7 +44,7 @@
 
 软件界面展示
 
-![](https://raw.githubusercontent.com/suifengqjn/videoMaker/master/image/1.png)
+![](http://cdn.qiniu.freetop.ren/2020-05-10-15891109560305.jpg)
 
 目前支持以下功能
 * [x] [字幕提取] 
