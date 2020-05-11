@@ -16,9 +16,10 @@
 build
 video
 bgm
-.idea
-*.zip
 log
 source
+material
 *.mp4
 测试素材
+.idea
+*.zip

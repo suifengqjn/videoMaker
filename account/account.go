@@ -21,7 +21,6 @@ const (
 )
 
 
-
 func NewAccount(appId, inviteCode string) *Account  {
 	deviceId := sys.GetShortDeviceId()
 	acc := appAccount.NewAppAccount("video_maker", Version,appId, inviteCode, deviceId,false)
