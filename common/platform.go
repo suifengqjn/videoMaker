@@ -8,6 +8,7 @@ import (
 	cm "myProject/videoCli/common"
 	"myTool/aliyun/cloud"
 	"myTool/file"
+	"path/filepath"
 )
 
 func SavePlatFormParam() {
@@ -47,6 +48,13 @@ func CheckAliYun(textPath string) error {
 	}
 
 	fmt.Println("进行参数测试...")
+
+	// 上传文本
+	_, err = MakerEngine.MakerCli.AliYunOss.UploadObject(textPath, filepath.Base(textPath))
+	if err != nil {
+		fmt.Println("阿里云oss参数错误", err)
+		return err
+	}
 	// 语音输出路径
 	//output := dir + "/" + cm.GetRandomString(6) + ".mp3"
 	param := cloud.TTSParam{
@@ -58,7 +66,7 @@ func CheckAliYun(textPath string) error {
 
 	res, err := MakerEngine.MakerCli.TTSVoiceMerge(content,MakerEngine.MakerCli.TempDir, &param)
 	if err != nil || file.PathExist(res) == false {
-		fmt.Println("测试失败！", err)
+		fmt.Println("语音交互参数错误", err)
 		return err
 	}
 	fmt.Println("参数填写正确！！！")
