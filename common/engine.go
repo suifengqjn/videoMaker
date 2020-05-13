@@ -52,6 +52,7 @@ func (v *VideoMakerEngine)DoMaker() {
 	defer lock.Unlock()
 
 	files, err := file.GetCurrentFiles(v.MakerCli.WorkDir)
+	_, dirs, err := file.GetCurrentFilesAndDirs(v.MakerCli.WorkDir)
 	if err != nil {
 		fmt.Println("获取文件失败")
 		return
@@ -67,7 +68,19 @@ func (v *VideoMakerEngine)DoMaker() {
 
 	isDealing = true
 
+	if len(dirs) > 0 {
+		for _,d := range dirs {
+			files, err := file.GetCurrentFiles(d)
+			if err != nil || len(files) == 0 {
+				continue
+			}
+			v.MakerCli.DoComposite(files)
+		}
+
+	}
+
 	v.MakerCli.DoComposite(files)
+
 
 	isDealing = false
 
