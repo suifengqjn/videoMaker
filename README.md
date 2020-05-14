@@ -46,6 +46,10 @@
 
 ![](http://cdn.qiniu.freetop.ren/2020-05-10-15891109560305.jpg)
 
+
+[常见问题](https://github.com/suifengqjn/videoMaker/blob/master/error.md)
+
+
 目前支持以下功能
 * [x] [字幕提取] 
 * [x] [真人发音]
@@ -117,3 +121,4 @@
 ### 1.4 
 字幕增加txt输出
 支持多目录
+增加错误日志
