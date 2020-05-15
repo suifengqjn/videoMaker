@@ -29,7 +29,7 @@
 
 ## 软件下载
 
-链接:https://pan.baidu.com/s/1aXOGEPRGaKdk2FWNlp2F-Q  密码:gck0
+链接:https://474b.com/dir/24885990-38968538-db8573  密码:279175
 
 
 ## 功能介绍
