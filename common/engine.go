@@ -54,7 +54,7 @@ func (v *VideoMakerEngine)DoMaker() {
 	files, err := file.GetCurrentFiles(v.MakerCli.WorkDir)
 	_, dirs, err := file.GetCurrentFilesAndDirs(v.MakerCli.WorkDir)
 	if err != nil {
-		fmt.Println("获取文件失败")
+		fmt.Println("获取文件失败", err)
 		return
 	}
 	if len(files) == 0 {
