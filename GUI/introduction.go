@@ -1,11 +1,14 @@
 package GUI
 
-import "github.com/icza/gowut/gwu"
+import (
+	"github.com/icza/gowut/gwu"
+	"myProject/videoMaker/account"
+)
 
 func buildIntroduction(event gwu.Event) gwu.Comp {
 	p := gwu.NewVerticalPanel()
 
-	label := gwu.NewLabel("核心功能:批量给自动配音 + 自动添加字幕 + 视频合成")
+	label := gwu.NewLabel("核心功能:批量给自动配音 + 自动添加字幕 + 视频合成" + account.Version)
 	label.Style().SetFontSize("16")
 	label.Style().SetColor(gwu.ClrBlue)
 	p.Add(label)
