@@ -850,12 +850,12 @@ func buildBottomBtn(p gwu.Panel) {
 			return
 		}
 
-		if checkParam() == false {
-			titleLabel.SetText("请先在参数页面填写参数")
-			titleLabel.Style().SetColor("red")
-			e.MarkDirty(titleLabel)
-			return
-		}
+		//if checkParam() == false {
+		//	titleLabel.SetText("请先在参数页面填写参数")
+		//	titleLabel.Style().SetColor("red")
+		//	e.MarkDirty(titleLabel)
+		//	return
+		//}
 
 		go common.MakerEngine.DoMaker()
 

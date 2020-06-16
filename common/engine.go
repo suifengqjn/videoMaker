@@ -81,7 +81,6 @@ func (v *VideoMakerEngine)DoMaker() {
 
 	v.MakerCli.DoComposite(files)
 
-
 	isDealing = false
 
 }
