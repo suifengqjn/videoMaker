@@ -1,7 +1,10 @@
 package GUI
 
-import "github.com/icza/gowut/gwu"
-
+import (
+	"github.com/icza/gowut/gwu"
+	cm "myProject/videoCli/common"
+	"myProject/videoMaker/common"
+)
 
 // 4. 片头
 var (
@@ -15,27 +18,16 @@ var (
 	cutBackTb gwu.TextBox
 )
 
-
 // 7. 去水印1
 var (
-	ClearWaterCb gwu.CheckBox
+	ClearWaterCb  gwu.CheckBox
 	ClearWaterTbx gwu.TextBox
 	ClearWaterTby gwu.TextBox
 	ClearWaterTbw gwu.TextBox
 	ClearWaterTbh gwu.TextBox
 )
-// 7. 去水印2
-//var (
-//	ClearWater2Cb gwu.CheckBox
-//	ClearWater2Tbx gwu.TextBox
-//	ClearWater2Tby gwu.TextBox
-//	ClearWater2Tbw gwu.TextBox
-//	ClearWater2Tbh gwu.TextBox
-//)
-
 
 // 提取字幕
-
 var (
 	SrtCb gwu.CheckBox
 )
@@ -44,7 +36,6 @@ var (
 var (
 	CompositeCb gwu.CheckBox
 	CompositeLb gwu.ListBox
-
 )
 
 //配音
@@ -55,70 +46,69 @@ var (
 	PitchRate int   //语调，范围是-500~500，默认是0
 */
 var (
-	DubCB gwu.CheckBox
-	SpeecherLb gwu.ListBox //播音人
-	VolumeTB  gwu.TextBox //音量
-	SpeechRate gwu.TextBox // 语速
-	PitchRate gwu.TextBox //语调
+	DubCB       gwu.CheckBox
+	SpeecherLb  gwu.ListBox //播音人
+	VolumeTB    gwu.TextBox //音量
+	SpeechRate  gwu.TextBox // 语速
+	PitchRate   gwu.TextBox //语调
 	BreakTimeTb gwu.TextBox //间隔时间
 )
 
 // 字幕背景
 var (
-	CoverBgCb gwu.CheckBox
+	CoverBgCb        gwu.CheckBox
 	CoverBgMarginVTb gwu.TextBox
-	CoverBjColorTb gwu.TextBox
-	CoverBjAlphaTb gwu.TextBox
-	CoverHTb gwu.TextBox
+	CoverBjColorTb   gwu.TextBox
+	CoverBjAlphaTb   gwu.TextBox
+	CoverHTb         gwu.TextBox
 )
 
 //字幕属性
 var (
-	SubTitleCb gwu.CheckBox
-	SubTitleFontVTb gwu.TextBox
-	SubTitleFontSizeTb gwu.TextBox
-	SubTitleFontColorTb gwu.TextBox
+	SubTitleCb            gwu.CheckBox
+	SubTitleFontVTb       gwu.TextBox
+	SubTitleFontSizeTb    gwu.TextBox
+	SubTitleFontColorTb   gwu.TextBox
 	SubTitleFontBjColorTb gwu.TextBox
 	SubTitleFontBjAlphaTb gwu.TextBox
 )
 
 // plot
 var (
-	AIPlotCb gwu.CheckBox
+	AIPlotCb           gwu.CheckBox
 	AIPlotRangeStartTb gwu.TextBox
-	AIPlotRangeEndTb gwu.TextBox
-	AIPlotDurationTb gwu.TextBox
-
+	AIPlotRangeEndTb   gwu.TextBox
+	AIPlotDurationTb   gwu.TextBox
 )
 
 // 12. 文字水印
 var (
-	WaterTextCb gwu.CheckBox
-	WaterTextTb gwu.TextBox
-	WaterTextSizeTb gwu.TextBox
+	WaterTextCb      gwu.CheckBox
+	WaterTextTb      gwu.TextBox
+	WaterTextSizeTb  gwu.TextBox
 	WaterTextColorLb gwu.ListBox
-	WaterTextFontLb gwu.ListBox
+	WaterTextFontLb  gwu.ListBox
 	WaterTextStyleLb gwu.ListBox
 	WaterTextHSpanTb gwu.TextBox
 	WaterTextVSpanTb gwu.TextBox
-
 )
+
 // 13. 滚动文字
 var (
-	RunWaterTextCb gwu.CheckBox
-	RunWaterTextTb gwu.TextBox //内容
-	RunWaterTextSizeTb gwu.TextBox
-	RunWaterTextColorLb gwu.ListBox
-	RunWaterTextFontLb gwu.ListBox
-	RunWaterTextStyleLb gwu.ListBox
+	RunWaterTextCb          gwu.CheckBox
+	RunWaterTextTb          gwu.TextBox //内容
+	RunWaterTextSizeTb      gwu.TextBox
+	RunWaterTextColorLb     gwu.ListBox
+	RunWaterTextFontLb      gwu.ListBox
+	RunWaterTextStyleLb     gwu.ListBox
 	RunWaterTextDirectionLb gwu.ListBox
-	RunWaterTextVSpanTb gwu.TextBox
-
+	RunWaterTextVSpanTb     gwu.TextBox
 )
+
 // 14. 图片水印
 var (
-	WaterImageCb gwu.CheckBox
-	WaterImageLb gwu.ListBox
+	WaterImageCb      gwu.CheckBox
+	WaterImageLb      gwu.ListBox
 	WaterImageStyleLb gwu.ListBox
 	WaterImageHSpanTb gwu.TextBox
 	WaterImageVSpanTb gwu.TextBox
@@ -126,16 +116,31 @@ var (
 
 // 16. 背景音乐
 var (
-	BgmCb gwu.CheckBox
-	BgmFrontVolumeTb gwu.TextBox // 前景音量
-	BgmBackVolumeTb gwu.TextBox // 背景音量
-	BgmCoverCb gwu.CheckBox //是否覆盖
+	BgmCb            gwu.CheckBox
+	BgmFrontVolumeTb gwu.TextBox  // 前景音量
+	BgmBackVolumeTb  gwu.TextBox  // 背景音量
+	BgmCoverCb       gwu.CheckBox //是否覆盖
 )
 
 var (
-	filmHeadCb  gwu.CheckBox
+	filmHeadCb gwu.CheckBox
 	filmHeadLb gwu.ListBox
 
-	filmFootCb  gwu.CheckBox
+	filmFootCb gwu.CheckBox
 	filmFootLb gwu.ListBox
 )
+
+func fillWithConfig(conf *cm.MakerConfig,e gwu.Event) {
+
+	cutHeadCb.SetState(conf.CutFront.Switch)
+	cutHeadCb.SetText(common.StrValue(conf.CutFront.Value))
+	e.MarkDirty(cutHeadCb)
+	e.MarkDirty(cutHeadTb)
+
+	cutBackCb.SetState(conf.CutBack.Switch)
+	cutBackTb.SetText(common.StrValue(conf.CutBack.Value))
+	e.MarkDirty(cutBackCb)
+	e.MarkDirty(cutBackTb)
+
+
+}

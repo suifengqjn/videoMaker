@@ -18,6 +18,10 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	p.Add(link)
 
 	p.AddVSpace(20)
+	link = gwu.NewLink("参数获取文档", "https://www.yuque.com/docs/share/ddc4060a-f2d9-40ae-b59a-d0ca3438386f?#")
+	p.Add(link)
+
+	p.AddVSpace(20)
 	link = gwu.NewLink("软件地址", "https://github.com/suifengqjn/videoMaker")
 	p.Add(link)
 
@@ -25,9 +29,7 @@ func buildIntroduction(event gwu.Event) gwu.Comp {
 	link = gwu.NewLink("卡号购买", "https://pr.kuaifaka.com/item/3ZUpQ")
 	p.Add(link)
 
-	p.AddVSpace(20)
-	link = gwu.NewLink("使用文档", "https://www.yuque.com/fengshi-zm9in/bx4gg5")
-	p.Add(link)
+
 
 
 	p.AddVSpace(20)

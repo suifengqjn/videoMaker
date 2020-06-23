@@ -69,6 +69,5 @@ func CheckAliYun(textPath string) error {
 		fmt.Println("语音交互参数错误", err)
 		return err
 	}
-	fmt.Println("参数填写正确！！！")
 	return nil
 }

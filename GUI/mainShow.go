@@ -43,6 +43,9 @@ func buildUI(p gwu.Panel) {
 
 	//-------//
 	p.AddVSpace(10)
+	buildLoadBtn(p)
+
+	p.AddVSpace(10)
 	buildSrtUI(p)
 
 	p.AddVSpace(10)
@@ -82,8 +85,48 @@ func buildUI(p gwu.Panel) {
 	p.AddVSpace(10)
 	buildSixteenHeadEnd(p)
 
+	p.AddVSpace(10)
+	buildSaveConfBtn(p)
+
 	p.AddVSpace(25)
 	buildBottomBtn(p)
+}
+
+func buildLoadBtn(p gwu.Panel) {
+	row := gwu.NewHorizontalPanel()
+
+	bt1 := gwu.NewButton("从配置1加载")
+	bt1.AddEHandlerFunc(func(e gwu.Event) {
+		con := common.LoadConfig1()
+		if con != nil {
+			fillWithConfig(common.AppConfig, e)
+		}
+	}, gwu.ETypeClick)
+	row.Add(bt1)
+
+	row.AddHSpace(200)
+	bt2 := gwu.NewButton("从配置2加载")
+	bt2.AddEHandlerFunc(func(e gwu.Event) {
+
+		con := common.LoadConfig2()
+		if con != nil {
+			fillWithConfig(common.AppConfig,e)
+		}
+	}, gwu.ETypeClick)
+	row.Add(bt2)
+
+	row.AddHSpace(200)
+	bt3 := gwu.NewButton("从配置3加载")
+	bt3.AddEHandlerFunc(func(e gwu.Event) {
+		con := common.LoadConfig3()
+		if con != nil {
+			fillWithConfig(common.AppConfig,e)
+		}
+
+	}, gwu.ETypeClick)
+	row.Add(bt3)
+
+	p.Add(row)
 }
 
 func buildFourCutFront(p gwu.Panel) {
@@ -408,7 +451,6 @@ func buildSubTitle(p gwu.Panel) {
 
 }
 
-
 // AI剪辑策略
 func buildAIPlot(p gwu.Panel) {
 
@@ -470,14 +512,14 @@ func buildSevenClearWater(p gwu.Panel) {
 	ClearWaterCb.AddEHandlerFunc(func(e gwu.Event) {
 		common.AppConfig.AppConf.ClearWater.Switch = ClearWaterCb.State()
 
-	}, gwu.ETypeClick,gwu.ETypeStateChange)
+	}, gwu.ETypeClick, gwu.ETypeStateChange)
 
 	row.Add(ClearWaterCb)
 	row.AddHSpace(18)
 
 	xl := gwu.NewLabel("x:")
 	row.Add(xl)
-	ClearWaterTbx= gwu.NewTextBox("")
+	ClearWaterTbx = gwu.NewTextBox("")
 	ClearWaterTbx.SetMaxLength(5)
 	ClearWaterTbx.Style().SetWidthPx(50)
 	ClearWaterTbx.AddSyncOnETypes(gwu.ETypeKeyUp)
@@ -490,7 +532,7 @@ func buildSevenClearWater(p gwu.Panel) {
 	row.AddHSpace(5)
 	yl := gwu.NewLabel("y:")
 	row.Add(yl)
-	ClearWaterTby= gwu.NewTextBox("")
+	ClearWaterTby = gwu.NewTextBox("")
 	ClearWaterTby.Style().SetBorder("1")
 	ClearWaterTby.SetMaxLength(5)
 	ClearWaterTby.Style().SetWidthPx(50)
@@ -504,7 +546,7 @@ func buildSevenClearWater(p gwu.Panel) {
 	row.AddHSpace(5)
 	wl := gwu.NewLabel("w:")
 	row.Add(wl)
-	ClearWaterTbw= gwu.NewTextBox("")
+	ClearWaterTbw = gwu.NewTextBox("")
 	ClearWaterTbw.Style().SetBorder("1")
 	ClearWaterTbw.SetMaxLength(5)
 	ClearWaterTbw.Style().SetWidthPx(50)
@@ -651,7 +693,6 @@ func buildTwelveTextWater(p gwu.Panel) {
 	p.Add(row2)
 }
 
-
 //图片水印
 func buildThirteenImageWater(p gwu.Panel) {
 	row := gwu.NewHorizontalPanel()
@@ -733,7 +774,6 @@ func buildFiveteenBgm(p gwu.Panel) {
 	}, gwu.ETypeClick, gwu.ETypeStateChange)
 
 	row.Add(BgmCb)
-
 
 	row.AddHSpace(10)
 	row.Add(gwu.NewLabel("前景音量:"))
@@ -832,6 +872,38 @@ func buildSixteenHeadEnd(p gwu.Panel) {
 	row2.Add(descLabel2)
 
 	p.Add(row2)
+}
+
+func buildSaveConfBtn(p gwu.Panel) {
+	row := gwu.NewHorizontalPanel()
+
+	bt1 := gwu.NewButton("保存到配置1")
+	bt1.AddEHandlerFunc(func(e gwu.Event) {
+
+		common.SaveConfig1(common.AppConfig)
+	}, gwu.ETypeClick)
+	row.Add(bt1)
+
+	row.AddHSpace(200)
+	bt2 := gwu.NewButton("保存到配置2")
+	bt2.AddEHandlerFunc(func(e gwu.Event) {
+
+		common.SaveConfig2(common.AppConfig)
+	}, gwu.ETypeClick)
+	row.Add(bt2)
+
+	row.AddHSpace(200)
+	bt3 := gwu.NewButton("保存到配置3")
+	bt3.AddEHandlerFunc(func(e gwu.Event) {
+		common.SaveConfig3(common.AppConfig)
+
+	}, gwu.ETypeClick)
+	row.Add(bt3)
+
+	row.AddVSpace(50)
+
+	p.Add(row)
+
 }
 
 func buildBottomBtn(p gwu.Panel) {

@@ -3,7 +3,9 @@ package GUI
 import (
 	"fmt"
 	"github.com/icza/gowut/gwu"
+	"io/ioutil"
 	"myProject/videoMaker/common"
+	"myTool/file"
 	"strings"
 )
 
@@ -14,7 +16,6 @@ var (
 	BucketNameTb gwu.TextBox
 	BucketDomainTb gwu.TextBox
 	ExpirationTb gwu.TextBox
-
 )
 
 
@@ -25,6 +26,7 @@ func buildPlatform(event gwu.Event) gwu.Comp {
 	buildAliYunVoice(p)
 
 	buildSaveBtn(p)
+	buildDesc(p)
 	return p
 }
 
@@ -242,19 +244,43 @@ func buildSaveBtn(p gwu.Panel)  {
 	line.Add(saveBtn)
 
 	line.AddHSpace(20)
+
 	checkBtn := gwu.NewButton("    参数检测   ")
 	checkBtn.Style().SetFontSize("18")
 	checkBtn.Style().SetColor(gwu.ClrBlue)
 
 	checkBtn.AddEHandlerFunc(func(e gwu.Event) {
-		path := "./source/files/test.txt"
+		path := "./source/test/test.txt"
 		err := common.CheckAliYun(path)
-		if err == nil {
-			checkLabel.SetText("参数正确")
-		} else {
-			checkLabel.SetText("参数错误, 请查看控制台输出")
+		if err != nil {
+			checkLabel.SetText("阿里云OSS参数错误, 请查看控制台输出")
+			e.MarkDirty(checkLabel)
+			return
 		}
+		testVideo := "./source/test/123.mp4"
+		txtPaths,err := common.MakerEngine.MakerCli.ExtractSubtitle([]string{testVideo})
+		if err != nil {
+			checkLabel.SetText("语音识别失败，语音或者appKey参数错误, 请查看控制台输出")
+			e.MarkDirty(checkLabel)
+			return
+		}
+		if file.PathExist(txtPaths[0]) == false {
+			checkLabel.SetText("文件输出失败，语音或者appKey参数错误, 请查看控制台输出")
+			e.MarkDirty(checkLabel)
+			return
+		}
+
+		buf, err := ioutil.ReadFile(txtPaths[0])
+		if err != nil || len(string(buf)) < 20 {
+			checkLabel.SetText("语音内容为空，语音或者appKey参数错误, 请查看控制台输出")
+			e.MarkDirty(checkLabel)
+			return
+		}
+
+		checkLabel.SetText("参数填写正确！")
 		e.MarkDirty(checkLabel)
+
+		fmt.Println("参数检测完毕, 可以开始视频原创...")
 
 	}, gwu.ETypeClick)
 
@@ -264,5 +290,31 @@ func buildSaveBtn(p gwu.Panel)  {
 	checkLabel = gwu.NewLabel("")
 	checkLabel.Style().SetFontSize("20")
 	line.Add(checkLabel)
+	p.Add(line)
+}
+
+
+func buildDesc(p gwu.Panel)  {
+
+	p.AddVSpace(20)
+	line := gwu.NewHorizontalPanel()
+
+	arr := []string {
+		"1. 参数获取看左上角介绍页面的视频教程(最好对照参数获取文档，以免出错)",
+		"2. 检测参数正确性：先检测参数正确再进行操作",
+		"   参数错误的情况下，可以查看控制台的输出信息，可以帮助你找到错误的原因",
+		"3. 填完参数点击保存，下次启动就不需要重新输入",
+		"4. 这边不再提供如何获取参数的支持，自己看视频和文档",
+		"5. 如果确实需要帮助，我可以远程帮你创建参数，辛苦费￥100(周六日才有时间)",
+		"6. 或者使用视频批量伪原创剪辑器和视频搬运专业版，这两个不需要任何参数",
+	}
+
+	for _, s := range arr {
+		p.AddVSpace(5)
+		p.Style().SetColor("red")
+		label := gwu.NewLabel(s)
+		p.Add(label)
+	}
+
 	p.Add(line)
 }
