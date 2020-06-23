@@ -93,17 +93,6 @@ var (
 	WaterTextVSpanTb gwu.TextBox
 )
 
-// 13. 滚动文字
-var (
-	RunWaterTextCb          gwu.CheckBox
-	RunWaterTextTb          gwu.TextBox //内容
-	RunWaterTextSizeTb      gwu.TextBox
-	RunWaterTextColorLb     gwu.ListBox
-	RunWaterTextFontLb      gwu.ListBox
-	RunWaterTextStyleLb     gwu.ListBox
-	RunWaterTextDirectionLb gwu.ListBox
-	RunWaterTextVSpanTb     gwu.TextBox
-)
 
 // 14. 图片水印
 var (
@@ -130,17 +119,106 @@ var (
 	filmFootLb gwu.ListBox
 )
 
-func fillWithConfig(conf *cm.MakerConfig,e gwu.Event) {
+func fillWithConfig(con *cm.MakerConfig,e gwu.Event) {
 
-	cutHeadCb.SetState(conf.CutFront.Switch)
-	cutHeadCb.SetText(common.StrValue(conf.CutFront.Value))
+	cutHeadCb.SetState(con.CutFront.Switch)
+	cutHeadCb.SetText(common.StrValue(con.CutFront.Value))
 	e.MarkDirty(cutHeadCb)
 	e.MarkDirty(cutHeadTb)
 
-	cutBackCb.SetState(conf.CutBack.Switch)
-	cutBackTb.SetText(common.StrValue(conf.CutBack.Value))
+	cutBackCb.SetState(con.CutBack.Switch)
+	cutBackTb.SetText(common.StrValue(con.CutBack.Value))
 	e.MarkDirty(cutBackCb)
 	e.MarkDirty(cutBackTb)
+
+	ClearWaterCb.SetState(con.ClearWater.Switch)
+	ClearWaterTbx.SetText(common.StrValue(con.ClearWater.X))
+	ClearWaterTby.SetText(common.StrValue(con.ClearWater.Y))
+	ClearWaterTbw.SetText(common.StrValue(con.ClearWater.W))
+	ClearWaterTbh.SetText(common.StrValue(con.ClearWater.W))
+	e.MarkDirty(ClearWaterCb)
+	e.MarkDirty(ClearWaterTbx)
+	e.MarkDirty(ClearWaterTby)
+	e.MarkDirty(ClearWaterTbw)
+	e.MarkDirty(ClearWaterTbh)
+
+	SrtCb.SetState(con.ExtractSubtitles.Switch)
+	e.MarkDirty(SrtCb)
+
+
+	CompositeCb.SetState(con.CompositeStyle.Switch)
+	CompositeLb.ClearSelected()
+	for _, v := range common.CompleteStyleMap {
+		if con.CompositeStyle.Style == v {
+			CompositeLb.Selected(v)
+			break
+		}
+	}
+	e.MarkDirty(CompositeCb)
+	e.MarkDirty(CompositeLb)
+
+
+	//voice
+	DubCB.SetState(con.Dub.Switch)
+	SpeecherLb.ClearSelected()
+	for k, v := range common.VoiceoverMap {
+		if con.Dub.Voice == v {
+			for index, p := range common.Voiceover {
+				if p == k {
+					SpeecherLb.Selected(index)
+					break
+				}
+			}
+		}
+	}
+	VolumeTB.SetText(con.Dub.Voice)
+	SpeechRate.SetText(common.StrValue(con.Dub.SpeechRate))
+	PitchRate.SetText(common.StrValue(con.Dub.PitchRate))
+	BreakTimeTb.SetText(common.StrValue(con.Dub.BreakTime))
+	e.MarkDirty(DubCB)
+	e.MarkDirty(SpeecherLb)
+	e.MarkDirty(VolumeTB)
+	e.MarkDirty(SpeechRate)
+	e.MarkDirty(PitchRate)
+	e.MarkDirty(BreakTimeTb)
+
+	// 字幕背景
+	CoverBgCb.SetState(con.SubtitleBack.Switch)
+	CoverBgMarginVTb.SetText(common.StrValue(con.SubtitleBack.CoverB))
+	CoverBjColorTb.SetText(con.SubtitleBack.BjColor)
+	CoverBjAlphaTb.SetText(common.StrValue(con.SubtitleBack.BjAlpha))
+	CoverHTb.SetText(common.StrValue(con.SubtitleBack.CoverH))
+	e.MarkDirty(CoverBgCb)
+	e.MarkDirty(CoverBgMarginVTb)
+	e.MarkDirty(CoverBjColorTb)
+	e.MarkDirty(CoverBjAlphaTb)
+	e.MarkDirty(CoverHTb)
+
+
+	//字幕属性
+	SubTitleCb.SetState(con.Subtitles.Switch)
+	SubTitleFontVTb.SetText(common.StrValue(con.Subtitles.MarginV))
+	SubTitleFontSizeTb.SetText(common.StrValue(con.Subtitles.FontSize))
+	SubTitleFontColorTb.SetText(con.Subtitles.FontColor)
+	SubTitleFontBjColorTb.SetText(con.Subtitles.BjColor)
+	SubTitleFontBjAlphaTb.SetText(common.StrValue(con.Subtitles.BjAlpha))
+	e.MarkDirty(SubTitleCb)
+	e.MarkDirty(SubTitleFontVTb)
+	e.MarkDirty(SubTitleFontSizeTb)
+	e.MarkDirty(SubTitleFontColorTb)
+	e.MarkDirty(SubTitleFontBjColorTb)
+	e.MarkDirty(SubTitleFontBjAlphaTb)
+
+
+	//plot
+	AIPlotCb.SetState(con.AIPlot.Switch)
+	AIPlotRangeStartTb.SetText(common.StrValue(con.AIPlot.RangeStart))
+	AIPlotRangeEndTb.SetText(common.StrValue(con.AIPlot.RangeEnd))
+	AIPlotDurationTb.SetText(common.StrValue(con.AIPlot.Duration))
+	e.MarkDirty(AIPlotCb)
+	e.MarkDirty(AIPlotRangeStartTb)
+	e.MarkDirty(AIPlotRangeEndTb)
+	e.MarkDirty(AIPlotDurationTb)
 
 
 }
