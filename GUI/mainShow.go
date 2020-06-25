@@ -934,6 +934,23 @@ func buildBottomBtn(p gwu.Panel) {
 	}, gwu.ETypeClick)
 
 	row.Add(startBtn)
+
+	//清空配置
+	row.AddHSpace(200)
+	cleanBtn := gwu.NewButton("清空配置")
+	cleanBtn.Style().SetFontSize("18")
+	cleanBtn.Style().SetColor(gwu.ClrBlue)
+
+	cleanBtn.AddEHandlerFunc(func(e gwu.Event) {
+		common.NewAppConfig()
+		fillWithConfig(common.AppConfig, e)
+
+	}, gwu.ETypeClick)
+
+	row.Add(cleanBtn)
+
+
+
 	p.Add(row)
 
 }

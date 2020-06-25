@@ -1,6 +1,7 @@
 package GUI
 
 import (
+	"fmt"
 	"github.com/icza/gowut/gwu"
 	cm "myProject/videoCli/common"
 	"myProject/videoMaker/common"
@@ -121,42 +122,21 @@ var (
 
 func fillWithConfig(con *cm.MakerConfig,e gwu.Event) {
 
-	cutHeadCb.SetState(con.CutFront.Switch)
-	cutHeadCb.SetText(common.StrValue(con.CutFront.Value))
-	e.MarkDirty(cutHeadCb)
-	e.MarkDirty(cutHeadTb)
-
-	cutBackCb.SetState(con.CutBack.Switch)
-	cutBackTb.SetText(common.StrValue(con.CutBack.Value))
-	e.MarkDirty(cutBackCb)
-	e.MarkDirty(cutBackTb)
-
-	ClearWaterCb.SetState(con.ClearWater.Switch)
-	ClearWaterTbx.SetText(common.StrValue(con.ClearWater.X))
-	ClearWaterTby.SetText(common.StrValue(con.ClearWater.Y))
-	ClearWaterTbw.SetText(common.StrValue(con.ClearWater.W))
-	ClearWaterTbh.SetText(common.StrValue(con.ClearWater.W))
-	e.MarkDirty(ClearWaterCb)
-	e.MarkDirty(ClearWaterTbx)
-	e.MarkDirty(ClearWaterTby)
-	e.MarkDirty(ClearWaterTbw)
-	e.MarkDirty(ClearWaterTbh)
-
+	//提取字幕
 	SrtCb.SetState(con.ExtractSubtitles.Switch)
 	e.MarkDirty(SrtCb)
 
-
+	//视频合成
 	CompositeCb.SetState(con.CompositeStyle.Switch)
 	CompositeLb.ClearSelected()
 	for _, v := range common.CompleteStyleMap {
 		if con.CompositeStyle.Style == v {
-			CompositeLb.Selected(v)
+			CompositeLb.SetSelected(v, true)
 			break
 		}
 	}
 	e.MarkDirty(CompositeCb)
 	e.MarkDirty(CompositeLb)
-
 
 	//voice
 	DubCB.SetState(con.Dub.Switch)
@@ -165,13 +145,13 @@ func fillWithConfig(con *cm.MakerConfig,e gwu.Event) {
 		if con.Dub.Voice == v {
 			for index, p := range common.Voiceover {
 				if p == k {
-					SpeecherLb.Selected(index)
+					SpeecherLb.SetSelected(index, true)
 					break
 				}
 			}
 		}
 	}
-	VolumeTB.SetText(con.Dub.Voice)
+	VolumeTB.SetText(common.StrValue(con.Dub.Volume))
 	SpeechRate.SetText(common.StrValue(con.Dub.SpeechRate))
 	PitchRate.SetText(common.StrValue(con.Dub.PitchRate))
 	BreakTimeTb.SetText(common.StrValue(con.Dub.BreakTime))
@@ -182,7 +162,7 @@ func fillWithConfig(con *cm.MakerConfig,e gwu.Event) {
 	e.MarkDirty(PitchRate)
 	e.MarkDirty(BreakTimeTb)
 
-	// 字幕背景
+	// 字幕遮盖
 	CoverBgCb.SetState(con.SubtitleBack.Switch)
 	CoverBgMarginVTb.SetText(common.StrValue(con.SubtitleBack.CoverB))
 	CoverBjColorTb.SetText(con.SubtitleBack.BjColor)
@@ -193,7 +173,6 @@ func fillWithConfig(con *cm.MakerConfig,e gwu.Event) {
 	e.MarkDirty(CoverBjColorTb)
 	e.MarkDirty(CoverBjAlphaTb)
 	e.MarkDirty(CoverHTb)
-
 
 	//字幕属性
 	SubTitleCb.SetState(con.Subtitles.Switch)
@@ -209,7 +188,6 @@ func fillWithConfig(con *cm.MakerConfig,e gwu.Event) {
 	e.MarkDirty(SubTitleFontBjColorTb)
 	e.MarkDirty(SubTitleFontBjAlphaTb)
 
-
 	//plot
 	AIPlotCb.SetState(con.AIPlot.Switch)
 	AIPlotRangeStartTb.SetText(common.StrValue(con.AIPlot.RangeStart))
@@ -219,6 +197,144 @@ func fillWithConfig(con *cm.MakerConfig,e gwu.Event) {
 	e.MarkDirty(AIPlotRangeStartTb)
 	e.MarkDirty(AIPlotRangeEndTb)
 	e.MarkDirty(AIPlotDurationTb)
+
+	//片头片尾
+	cutHeadCb.SetState(con.CutFront.Switch)
+	cutHeadTb.SetText(common.StrValue(con.CutFront.Value))
+	e.MarkDirty(cutHeadCb)
+	e.MarkDirty(cutHeadTb)
+
+	cutBackCb.SetState(con.CutBack.Switch)
+	cutBackTb.SetText(common.StrValue(con.CutBack.Value))
+	e.MarkDirty(cutBackCb)
+	e.MarkDirty(cutBackTb)
+
+	//去除水印
+	ClearWaterCb.SetState(con.ClearWater.Switch)
+	ClearWaterTbx.SetText(common.StrValue(con.ClearWater.X))
+	ClearWaterTby.SetText(common.StrValue(con.ClearWater.Y))
+	ClearWaterTbw.SetText(common.StrValue(con.ClearWater.W))
+	ClearWaterTbh.SetText(common.StrValue(con.ClearWater.W))
+	e.MarkDirty(ClearWaterCb)
+	e.MarkDirty(ClearWaterTbx)
+	e.MarkDirty(ClearWaterTby)
+	e.MarkDirty(ClearWaterTbw)
+	e.MarkDirty(ClearWaterTbh)
+
+	//文字水印
+	WaterTextCb.SetState(con.WaterText.Switch)
+	WaterTextTb.SetText(con.WaterText.Content)
+	WaterTextSizeTb.SetText(common.StrValue(con.WaterText.Size))
+	if _, ok := common.TextColorsMap[con.WaterText.Color];ok {
+		index := common.TextColorsMap[con.WaterText.Color]
+		WaterTextColorLb.SetSelected(index, true)
+	} else {
+		WaterTextColorLb.ClearSelected()
+	}
+
+	fonts, keys := common.LoadFonts()
+	WaterTextFontLb.ClearSelected()
+	for _, v := range fonts {
+		if v == con.WaterText.Path {
+			for i:= 0;i<len(keys);i++ {
+				WaterTextFontLb.SetSelected(i+1, true)
+				break
+			}
+		}
+	}
+
+
+	if _, ok := common.WaterStyleMap[con.WaterText.Style];ok {
+		WaterTextStyleLb.SetSelected(con.WaterText.Style, true)
+	} else {
+		WaterTextStyleLb.ClearSelected()
+	}
+	WaterTextHSpanTb.SetText(common.StrValue(con.WaterText.Sp1))
+	WaterTextVSpanTb.SetText(common.StrValue(con.WaterText.Sp2))
+	e.MarkDirty(WaterTextCb)
+	e.MarkDirty(WaterTextTb)
+	e.MarkDirty(WaterTextSizeTb)
+	e.MarkDirty(WaterTextColorLb)
+	e.MarkDirty(WaterTextFontLb)
+	e.MarkDirty(WaterTextStyleLb)
+	e.MarkDirty(WaterTextHSpanTb)
+	e.MarkDirty(WaterTextVSpanTb)
+
+
+	//图片水印
+	images, keys := common.LoadImages()
+	WaterImageCb.SetState(con.WaterImage.Switch)
+	WaterImageLb.ClearSelected()
+	for _, v := range images {
+		if v == con.WaterImage.Path {
+			for i:= 0;i<len(keys);i++ {
+				WaterImageLb.SetSelected(i+1, true)
+				break
+			}
+		}
+	}
+	if _, ok := common.WaterStyleMap[con.WaterImage.Style];ok {
+		WaterImageStyleLb.SetSelected(con.WaterImage.Style, true)
+	} else {
+		WaterImageStyleLb.ClearSelected()
+	}
+	WaterImageHSpanTb.SetText(common.StrValue(con.WaterImage.Sp1))
+	WaterImageVSpanTb.SetText(common.StrValue(con.WaterImage.Sp2))
+	e.MarkDirty(WaterImageCb)
+	e.MarkDirty(WaterImageLb)
+	e.MarkDirty(WaterImageStyleLb)
+	e.MarkDirty(WaterImageHSpanTb)
+	e.MarkDirty(WaterImageVSpanTb)
+
+	//背景音乐
+	BgmCb.SetState(con.AddBgm.Switch)
+	BgmFrontVolumeTb.SetText(fmt.Sprintf("%v",con.AddBgm.FrontVolume))
+	BgmBackVolumeTb.SetText(fmt.Sprintf("%v",con.AddBgm.BackVolume))
+	BgmCoverCb.SetState(con.AddBgm.Cover)
+	e.MarkDirty(BgmCb)
+	e.MarkDirty(BgmFrontVolumeTb)
+	e.MarkDirty(BgmBackVolumeTb)
+	e.MarkDirty(BgmCoverCb)
+
+	//片头片尾
+	films, keys := common.LoadFilms()
+	filmHeadCb.SetState(con.FilmHead.Switch)
+	filmHeadLb.ClearSelected()
+	for _, v := range films {
+		if v == con.FilmHead.Path {
+			for i:= 0;i<len(keys);i++ {
+				filmHeadLb.SetSelected(i+1, true)
+				break
+			}
+		}
+	}
+	e.MarkDirty(filmHeadCb)
+	e.MarkDirty(filmHeadLb)
+
+	filmFootCb.SetState(con.FilmFoot.Switch)
+	filmFootLb.ClearSelected()
+	for _, v := range films {
+		if v == con.FilmFoot.Path {
+			for i:= 0;i<len(keys);i++ {
+				filmFootLb.SetSelected(i+1, true)
+				break
+			}
+		}
+	}
+	e.MarkDirty(filmFootCb)
+	e.MarkDirty(filmFootLb)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
