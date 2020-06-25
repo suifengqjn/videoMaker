@@ -942,7 +942,7 @@ func buildBottomBtn(p gwu.Panel) {
 	cleanBtn.Style().SetColor(gwu.ClrBlue)
 
 	cleanBtn.AddEHandlerFunc(func(e gwu.Event) {
-		common.NewAppConfig()
+		common.MakerEngine.MakerCli.UpdateConf(common.NewAppConfig())
 		fillWithConfig(common.AppConfig, e)
 
 	}, gwu.ETypeClick)

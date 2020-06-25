@@ -8,7 +8,7 @@ import (
 func buildIntroduction(event gwu.Event) gwu.Comp {
 	p := gwu.NewVerticalPanel()
 
-	label := gwu.NewLabel("核心功能:批量给自动配音 + 自动添加字幕 + 视频合成" + account.Version)
+	label := gwu.NewLabel("核心功能:批量给自动配音 + 自动添加字幕 + 视频合成" + "  ---  "+account.Version+"版")
 	label.Style().SetFontSize("16")
 	label.Style().SetColor(gwu.ClrBlue)
 	p.Add(label)

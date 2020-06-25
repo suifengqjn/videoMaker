@@ -57,10 +57,6 @@ func (v *VideoMakerEngine)DoMaker() {
 		fmt.Println("获取文件失败", err)
 		return
 	}
-	if len(files) == 0 {
-		fmt.Println("文件为空，请将文件放到video目录")
-		return
-	}
 	if isDealing {
 		fmt.Println("正在处理中，请稍后")
 		return
@@ -77,9 +73,11 @@ func (v *VideoMakerEngine)DoMaker() {
 			v.MakerCli.DoComposite(files)
 		}
 
+	} else if len(files) > 0 {
+		v.MakerCli.DoComposite(files)
 	}
 
-	v.MakerCli.DoComposite(files)
+
 
 	isDealing = false
 

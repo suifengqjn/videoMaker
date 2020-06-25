@@ -17,6 +17,8 @@
 
 [模式5: 文字转语音](https://www.bilibili.com/video/BV1Jk4y1k7Hg/)
 
+[批量处理](https://www.bilibili.com/video/BV1r5411Y7eZ/)
+
 
 ## 软件打开方式
 
