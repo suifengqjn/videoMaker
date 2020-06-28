@@ -37,7 +37,7 @@ func buildActive(p gwu.Panel)  {
 	p.AddVSpace(5)
 	p.Add(gwu.NewLabel(account.AppAccount.Message()))
 	p.AddVSpace(5)
-	p.Add(gwu.NewLabel(account.AppAccount.Time()))
+	p.Add(gwu.NewLabel(account.AppAccount.TimeInfo()))
 
 }
 
@@ -128,8 +128,8 @@ func buildUnActive(p gwu.Panel)  {
 			} else {
 				user.SetText("激活失败")
 			}
-			message.SetText(acc.AppAccount.Msg)
-			timeStr.SetText(acc.AppAccount.Time)
+			message.SetText(acc.Msg)
+			timeStr.SetText(acc.TimeInfo())
 			e.MarkDirty(user)
 			e.MarkDirty(message)
 			e.MarkDirty(timeStr)

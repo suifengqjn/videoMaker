@@ -3,7 +3,7 @@ package common
 import (
 	"fmt"
 	"myProject/videoCli/makerCli"
-	"myProject/videoMaker/account"
+	"myTool/appAccount"
 	"myTool/file"
 	"os"
 	"strings"
@@ -15,10 +15,10 @@ var isDealing = false
 var lock = sync.Mutex{}
 type VideoMakerEngine struct {
 	MakerCli *makerCli.Engine
-	Account  *account.Account
+	Account  *appAccount.AppAccount
 }
 
-func NewMakerEngine(cli *makerCli.Engine, acc *account.Account) *VideoMakerEngine  {
+func NewMakerEngine(cli *makerCli.Engine, acc *appAccount.AppAccount) *VideoMakerEngine  {
 
 	MakerEngine = &VideoMakerEngine{
 		MakerCli: cli,
